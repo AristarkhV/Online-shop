@@ -30,10 +30,10 @@ public class EditProductServlet extends HttpServlet {
             request.setAttribute("productPrice", editProduct.get().getPrice());
             request.setAttribute("productDescription", editProduct.get().getDescription());
             request.setAttribute("productId", editProduct.get().getProductId());
-            request.getRequestDispatcher("addProduct.jsp").forward(request, response);
+            request.getRequestDispatcher("/addProduct.jsp").forward(request, response);
         } else {
             LOGGER.info("Product is not found");
-            response.sendRedirect("addProduct.jsp");
+            response.sendRedirect("/addProduct.jsp");
         }
     }
 
