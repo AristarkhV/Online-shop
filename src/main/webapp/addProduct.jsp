@@ -21,7 +21,7 @@
         <h4>${error}</h4>
         <h4>${done}</h4>
         <form>
-            <input type="submit" formaction="/addProduct" formmethod="post" value="Do">
+            <input type="submit" formaction="/add/product" formmethod="post" value="Do">
         </form>
         <form>
             <input type="submit" formaction="/products" formmethod="post" value="Products page">

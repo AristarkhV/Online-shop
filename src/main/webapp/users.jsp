@@ -13,6 +13,7 @@
         <tr>
             <th>Email</th>
             <th>Password</th>
+            <th>Role</th>
             <th class="td-button">
                 <form action="/admin/add/user" method="get">
                     <input type="submit" value="Add user">

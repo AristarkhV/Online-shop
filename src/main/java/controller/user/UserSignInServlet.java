@@ -45,10 +45,8 @@ public class UserSignInServlet extends HttpServlet {
                         .getPassword();
                 if (userPassword.equals(password)) {
                     HttpSession session = request.getSession();
-                    session.setAttribute("user", currentUser.get());
-                    request.setAttribute("users", userService.getAll());
-                    request.getRequestDispatcher("/users.jsp").forward(request, response);
-                    response.sendRedirect("/users");
+                    request.getRequestDispatcher("/products.jsp").forward(request, response);
+                    response.sendRedirect("/products");
                 } else {
                     request.setAttribute("email", email);
                     request.setAttribute("error", "Bad email or password");

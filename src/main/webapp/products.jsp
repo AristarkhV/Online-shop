@@ -15,7 +15,7 @@
             <th>Description</th>
             <th>Price</th>
             <th class="td-button">
-                <form action="addProduct" method="get">
+                <form action="/add/product" method="get">
                     <input type="submit" value="Add product">
                 </form>
             </th>
@@ -26,7 +26,7 @@
                 <td>${product.price}</td>
                 <td>${product.description}</td>
                 <td class="td-button">
-                    <form action="edit/product" method="get">
+                    <form action="/edit/product" method="get">
                         <input type="hidden" name="productId" value="${product.productId}">
                         <button type="submit">Edit</button>
                     </form>
