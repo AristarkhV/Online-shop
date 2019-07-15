@@ -1,0 +1,11 @@
+package db;
+
+import model.Product;
+import model.User;
+
+import java.util.ArrayList;
+
+public class Storage {
+    public static final ArrayList<User> users = new ArrayList();
+    public static final ArrayList<Product> products = new ArrayList();
+}
