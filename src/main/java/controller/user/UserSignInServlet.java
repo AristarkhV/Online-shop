@@ -45,6 +45,7 @@ public class UserSignInServlet extends HttpServlet {
                         .getPassword();
                 if (userPassword.equals(password)) {
                     HttpSession session = request.getSession();
+                    session.setAttribute("user", currentUser.get());
                     request.getRequestDispatcher("/products.jsp").forward(request, response);
                     response.sendRedirect("/products");
                 } else {
