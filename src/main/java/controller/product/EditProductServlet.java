@@ -25,7 +25,7 @@ public class EditProductServlet extends HttpServlet {
             throws ServletException, IOException {
         String id = request.getParameter("productId");
         if (id != null) {
-            Optional<Product> editProduct = productService.getProductById(currentID(id).get());
+            Optional<Product> editProduct = productService.getProductById(Long.parseLong(id));
             request.setAttribute("productName", editProduct.get().getName());
             request.setAttribute("productPrice", editProduct.get().getPrice());
             request.setAttribute("productDescription", editProduct.get().getDescription());
@@ -35,12 +35,5 @@ public class EditProductServlet extends HttpServlet {
             LOGGER.info("Product is not found");
             response.sendRedirect("/addProduct.jsp");
         }
-    }
-
-    private Optional<Long> currentID(String id) {
-        if (id == null) {
-            return Optional.empty();
-        }
-        return Optional.of(Long.parseLong(id));
     }
 }

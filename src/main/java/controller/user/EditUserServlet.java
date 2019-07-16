@@ -25,7 +25,7 @@ public class EditUserServlet extends HttpServlet {
             throws ServletException, IOException {
         String id = request.getParameter("userId");
         if (id != null) {
-            Optional<User> editUser = userService.getUserById(currentID(id).get());
+            Optional<User> editUser = userService.getUserById(Long.parseLong(id));
             request.setAttribute("email", editUser.get().getEmail());
             request.setAttribute("userId", editUser.get().getUserId());
             request.getRequestDispatcher("/addUser.jsp").forward(request, response);
@@ -33,12 +33,5 @@ public class EditUserServlet extends HttpServlet {
             LOGGER.info("User is not found");
             response.sendRedirect("/addUser.jsp");
         }
-    }
-
-    private Optional<Long> currentID(String id) {
-        if (id == null) {
-            return Optional.empty();
-        }
-        return Optional.of(Long.parseLong(id));
     }
 }

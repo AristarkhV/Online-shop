@@ -32,8 +32,8 @@ public class AddUserServlet extends HttpServlet {
             request.setAttribute("error", "Already registered");
             request.getRequestDispatcher("/addUser.jsp").forward(request, response);
         } else {
-            if (password.equals("") || email.equals("") || repeatPassword.equals("")) {
-                if (!email.equals("")) {
+            if (password.isEmpty() || email.isEmpty() || repeatPassword.isEmpty()) {
+                if (!email.isEmpty()) {
                     request.setAttribute("error", "Password field is empty");
                     request.setAttribute("email", email);
                     request.getRequestDispatcher("/addUser.jsp").forward(request, response);
@@ -43,7 +43,7 @@ public class AddUserServlet extends HttpServlet {
             } else {
                 if (password.equals(repeatPassword)) {
                     Role role = new Role(request.getParameter("role"));
-                    if (!id.equals("") && id != null) {
+                    if (id != null && !id.isEmpty()) {
                         Optional<User> editUser = userService.getUserById(currentID(id).get());
                         if (editUser.isPresent()) {
                             LOGGER.info("Try to edit  " + editUser + " ... \n");
