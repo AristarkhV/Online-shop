@@ -27,14 +27,14 @@ public class AddProductServlet extends HttpServlet {
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         Double price = 0.0;
-        if (!(request.getParameter("price").equals(""))) {
+        if (!(request.getParameter("price").isEmpty())) {
             price = Double.parseDouble(request.getParameter("price"));
         }
-        if (name.equals("") || description.equals("") || request.getParameter("price").equals("")) {
+        if (name.isEmpty() || description.isEmpty() || request.getParameter("price").isEmpty()) {
             request.setAttribute("error", "Empty fields :(");
             request.getRequestDispatcher("/addProduct.jsp").forward(request, response);
         } else {
-            if (!id.equals("") && id != null) {
+            if (id != null &&!id.isEmpty()) {
                 Optional<Product> editProduct = productService.getProductById(currentID(id).get());
                 if (editProduct.isPresent()) {
                     LOGGER.info("Try to edit  " + editProduct.get() + "... \n");

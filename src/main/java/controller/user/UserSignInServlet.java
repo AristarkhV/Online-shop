@@ -29,8 +29,8 @@ public class UserSignInServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         Optional<User> currentUser = userService.getUserByEmail(email);
-        if (password.equals("")) {
-            if (!email.equals("")) {
+        if (password.isEmpty()) {
+            if (!email.isEmpty()) {
                 request.setAttribute("error", "Password field is empty");
                 request.setAttribute("email", email);
                 request.getRequestDispatcher("/index.jsp").forward(request, response);

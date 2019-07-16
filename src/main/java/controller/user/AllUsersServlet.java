@@ -21,10 +21,4 @@ public class AllUsersServlet extends HttpServlet {
         request.setAttribute("users", userService.getAll());
         request.getRequestDispatcher("/users.jsp").forward(request, response);
     }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.getRequestDispatcher("/users.jsp").forward(request, response);
-    }
 }
