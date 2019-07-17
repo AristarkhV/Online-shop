@@ -27,13 +27,13 @@
                 <td>${user.role.role}</td>
                 <td class="td-button">
                     <form action="/admin/edit/user" method="get">
-                        <input type="hidden" name="userId" value="${user.userId}">
+                        <input type="hidden" name="userID" value="${user.userID}">
                         <button type="submit">Edit</button>
                     </form>
                 </td>
                 <td class="td-button">
                     <form action="/delete/user" method="post">
-                        <input type="hidden" name="userId" value="${user.userId}">
+                        <input type="hidden" name="userID" value="${user.userID}">
                         <button type="submit">Delete</button>
                     </form>
                 </td>

@@ -1,7 +1,9 @@
 package controller.user;
 
+import factory.ProductServiceFactory;
 import factory.UserServiceFactory;
 import model.User;
+import service.ProductService;
 import service.UserService;
 
 import javax.servlet.ServletException;
@@ -13,15 +15,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet(value = "/login")
+@WebServlet("/login")
 public class UserSignInServlet extends HttpServlet {
 
     private UserService userService = UserServiceFactory.getInstance();
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/login").forward(request, response);
-    }
+    private ProductService productService = ProductServiceFactory.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -46,8 +44,7 @@ public class UserSignInServlet extends HttpServlet {
                 if (userPassword.equals(password)) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", currentUser.get());
-                    request.getRequestDispatcher("/products.jsp").forward(request, response);
-                    response.sendRedirect("/products");
+                    response.sendRedirect("/store");
                 } else {
                     request.setAttribute("email", email);
                     request.setAttribute("error", "Bad email or password");
@@ -58,8 +55,6 @@ public class UserSignInServlet extends HttpServlet {
                 request.setAttribute("email", email);
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
             }
-            request.setAttribute("users", userService.getAll());
-            request.getRequestDispatcher("/users.jsp").forward(request, response);
         }
     }
 }

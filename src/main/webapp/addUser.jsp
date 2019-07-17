@@ -21,7 +21,7 @@
         <label for="radio-admin">Admin</label>
         <input type="radio" name="role" value="user" id="radio-user" class="form-radio">
         <label for="radio-user">User</label>
-        <input type="hidden" name="userId" value="${userId}">
+        <input type="hidden" name="userID" value="${userID}">
         <h4>${error}</h4>
         <h4>${done}</h4>
         <input name="submit" type="submit" value="Do">

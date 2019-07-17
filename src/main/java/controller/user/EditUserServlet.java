@@ -27,7 +27,7 @@ public class EditUserServlet extends HttpServlet {
         if (id != null) {
             Optional<User> editUser = userService.getUserById(Long.parseLong(id));
             request.setAttribute("email", editUser.get().getEmail());
-            request.setAttribute("userId", editUser.get().getUserId());
+            request.setAttribute("userId", editUser.get().getUserID());
             request.getRequestDispatcher("/addUser.jsp").forward(request, response);
         } else {
             LOGGER.info("User is not found");
