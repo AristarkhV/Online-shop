@@ -59,7 +59,6 @@ public class CartServlet extends HttpServlet {
                     deliveryAddress,
                     userFromSession.get().getUserCart().getUserProducts());
             orderService.addOrder(userOrder);
-            userService.addOrder(userFromSession.get(), userOrder);
             String sendCnfirmCode = RandomHelper.generateCode();
             HttpSession session = request.getSession();
             Code code = new Code(sendCnfirmCode);

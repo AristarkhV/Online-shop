@@ -77,10 +77,10 @@ public class UserDaoImpl implements UserDao {
         Storage.users.stream().filter(user -> {
             if (user.getUserID().equals(currentUser.getUserID())) {
                 user.getOrderList().add(order);
-                LOGGER.info(order + "is added to users list" + currentUser);
+                LOGGER.info("is added to users order list");
                 return true;
             }
-            LOGGER.info(order + "isn't added to list in DAO" + currentUser);
+            LOGGER.info("isn't added to list in DAO");
             return false;
         }).findFirst();
     }
