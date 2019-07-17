@@ -19,7 +19,7 @@ public class MailServiceImpl implements MailService {
     private static final Logger logger = Logger.getLogger(MailServiceImpl.class);
 
     @Override
-    public void sendConfirmCode(Code code) {
+    public void sendConfirmCode(Code code, String email) {
         final String username = "kijanitsayulija@gmail.com";
         final String password = "oriflame1221";
 
@@ -41,15 +41,15 @@ public class MailServiceImpl implements MailService {
             message.setFrom(new InternetAddress(username));
             message.setRecipients(
                     Message.RecipientType.TO,
-                    InternetAddress.parse(code.getUser().getEmail())
+                    InternetAddress.parse(email)
             );
             message.setSubject("Confirm password \"Online shop\"");
             message.setText(code.getCode());
 
             Transport.send(message);
-            logger.info("Message send succesfull to " + code.getUser());
+            logger.info("Message send succesfull to " + email);
         } catch (MessagingException e) {
-            logger.error("An error occurred while sending message to " + code.getUser(), e);
+            logger.error("An error occurred while sending message to " + email, e);
         }
     }
 }
