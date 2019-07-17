@@ -2,8 +2,6 @@ package dao.impl;
 
 import dao.UserDao;
 import db.Storage;
-import model.Order;
-import model.Product;
 import model.Role;
 import model.User;
 import org.apache.log4j.Logger;
@@ -33,7 +31,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public synchronized void editUser(User editUser, String email, String password, Role role) {
+    public void editUser(User editUser, String email, String password, Role role) {
         Storage.users.stream().filter(user -> {
             if (user.getUserID().equals(editUser.getUserID())) {
                 user.setPassword(password);
@@ -58,30 +56,5 @@ public class UserDaoImpl implements UserDao {
         return Storage.users.stream()
                 .filter(user -> user.getUserID().equals(id))
                 .findFirst();
-    }
-
-    @Override
-    public void addProductToCart(Product product, User currentUser) {
-        Storage.users.stream().filter(user -> {
-            if (user.getUserID().equals(currentUser.getUserID())) {
-                user.getUserCart().getUserProducts().add(product);
-                LOGGER.info(product + "is added to cart" + currentUser);
-                return true;
-            }
-            return false;
-        }).findFirst();
-    }
-
-    @Override
-    public void addOrder(User currentUser, Order order) {
-        Storage.users.stream().filter(user -> {
-            if (user.getUserID().equals(currentUser.getUserID())) {
-                user.getOrderList().add(order);
-                LOGGER.info("is added to users order list");
-                return true;
-            }
-            LOGGER.info("isn't added to list in DAO");
-            return false;
-        }).findFirst();
     }
 }

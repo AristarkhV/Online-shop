@@ -27,13 +27,13 @@
                 <td>${product.description}</td>
                 <td class="td-button">
                     <form action="/admin/edit/product" method="get">
-                        <input type="hidden" name="productId" value="${product.productId}">
+                        <input type="hidden" name="productID" value="${product.productID}">
                         <button type="submit">Edit</button>
                     </form>
                 </td>
                 <td class="td-button">
                     <form action="/admin/delete/product" method="post">
-                        <input type="hidden" name="productId" value="${product.productId}">
+                        <input type="hidden" name="productID" value="${product.productID}">
                         <button type="submit">Delete</button>
                     </form>
                 </td>

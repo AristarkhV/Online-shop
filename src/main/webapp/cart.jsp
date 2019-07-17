@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <style>
     <%@include file='css/style.css'%>
 </style>
@@ -14,7 +14,7 @@
                 type="submit"
                 name="submit"
                 formaction="/store/cart" formmethod="post"
-                value="Cart page">${counter}
+                value="Cart page">${cardsCounter}
         </button>
     </form>
 </header>
@@ -27,6 +27,8 @@
             <th>Description</th>
             </th>
         </tr>
+<c:set var = "check" scope = "page" value = "${flag}"/>
+<c:if test = "${check > 0}">
         <c:forEach var="product" items="${order}">
             <tr>
                 <td>${product.name}</td>
@@ -34,6 +36,7 @@
                 <td>${product.description}</td>
             </tr>
         </c:forEach>
+</c:if>
     </table>
 </div>
 <div name="order" align="center">
@@ -48,6 +51,9 @@
             <h4>${error}</h4>
             <form>
                 <input type="submit" name="submit" formaction="/store/cart" formmethod="get" value="Pay">
+            </form>
+            <form>
+                <input type="submit" name="submit" formaction="/store" formmethod="get" value="Store">
             </form>
         </div>
     </form>

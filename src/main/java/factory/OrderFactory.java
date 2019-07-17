@@ -6,7 +6,7 @@ import dao.impl.OrderDaoImpl;
 public class OrderFactory {
     private static OrderDao instance;
 
-    public static OrderDao getInstance() {
+    public static synchronized OrderDao getInstance() {
         if (instance == null) {
             instance = new OrderDaoImpl();
         }

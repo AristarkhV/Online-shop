@@ -1,4 +1,4 @@
-package factory;
+package factory.service;
 
 import service.OrderService;
 import service.serviceImpl.OrderServiceImpl;
