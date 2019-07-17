@@ -1,15 +1,20 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Order {
     private User user;
     private Long orderID;
     private String deliveryAddress;
+    private List<Product> orderProducts = new ArrayList<>();
 
-    public Order(User user) {
-        this.user = user;
+    public Order(User user, String deliveryAddress, ArrayList orderProducts) {
         this.orderID = IdCreator.idCreator();
+        this.user = user;
+        this.orderProducts = orderProducts;
+        this.deliveryAddress = deliveryAddress;
     }
 
     public Long getOrderID() {
