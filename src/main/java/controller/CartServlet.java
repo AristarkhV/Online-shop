@@ -1,10 +1,12 @@
 package controller;
 
 import factory.MailServiceFactory;
+import factory.OrderServiceFactory;
 import model.Code;
 import model.Order;
 import model.User;
 import service.MailService;
+import service.OrderService;
 import util.RandomHelper;
 
 import javax.servlet.ServletException;
@@ -20,6 +22,7 @@ import java.util.Optional;
 public class CartServlet extends HttpServlet {
 
     private static final MailService mailService = MailServiceFactory.getInstance();
+    private static final OrderService orderService = OrderServiceFactory.getInstance();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -50,8 +53,10 @@ public class CartServlet extends HttpServlet {
             request.setAttribute("order", userFromSession.get().getUserCart().getUserProducts());
             request.getRequestDispatcher("/cart.jsp").forward(request, response);
         } else {
-            Order userOrder = new Order(userFromSession.get());
-            userOrder.setDeliveryAddress(deliveryAddress);
+            Order userOrder = new Order(userFromSession.get(),
+                    deliveryAddress,
+                    userFromSession.get().getUserCart().getUserProducts());
+            orderService.addOrder(userOrder);
             userFromSession.get().setOrder(userOrder);
             String sendCnfirmCode = RandomHelper.generateCode();
             HttpSession session = request.getSession();
