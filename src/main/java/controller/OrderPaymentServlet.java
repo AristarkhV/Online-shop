@@ -37,7 +37,7 @@ public class OrderPaymentServlet extends HttpServlet {
         String sendCnfirmCode = RandomHelper.generateCode();
         HttpSession session = request.getSession();
         User userFromSession = (User) session.getAttribute("user");
-        Code code = new Code(sendCnfirmCode, userFromSession);
+        Code code = new Code(sendCnfirmCode);
         new Thread(() -> mailService.sendConfirmCode(code)).start();
         session.setAttribute("code", code.getCode());
         response.sendRedirect("/orderPayment.jsp");
