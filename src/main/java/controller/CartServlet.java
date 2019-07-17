@@ -2,11 +2,13 @@ package controller;
 
 import factory.MailServiceFactory;
 import factory.OrderServiceFactory;
+import factory.UserServiceFactory;
 import model.Code;
 import model.Order;
 import model.User;
 import service.MailService;
 import service.OrderService;
+import service.UserService;
 import util.RandomHelper;
 
 import javax.servlet.ServletException;
@@ -23,6 +25,7 @@ public class CartServlet extends HttpServlet {
 
     private static final MailService mailService = MailServiceFactory.getInstance();
     private static final OrderService orderService = OrderServiceFactory.getInstance();
+    private static final UserService userService = UserServiceFactory.getInstance();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -46,7 +49,6 @@ public class CartServlet extends HttpServlet {
 
         String deliveryAddress = request.getParameter("delivery");
         String email = request.getParameter("email");
-
         request.getRequestDispatcher("/orderPayment.jsp").forward(request, response);
         if (deliveryAddress.isEmpty() || email.isEmpty()) {
             request.setAttribute("error", "Empty fields :(");
@@ -57,7 +59,7 @@ public class CartServlet extends HttpServlet {
                     deliveryAddress,
                     userFromSession.get().getUserCart().getUserProducts());
             orderService.addOrder(userOrder);
-            userFromSession.get().setOrder(userOrder);
+            userService.addOrder(userFromSession.get(), userOrder);
             String sendCnfirmCode = RandomHelper.generateCode();
             HttpSession session = request.getSession();
             Code code = new Code(sendCnfirmCode);

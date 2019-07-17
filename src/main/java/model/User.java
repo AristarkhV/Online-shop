@@ -1,11 +1,13 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class User {
 
     private Long userID;
-    private Order order;
+    private List<Order> orderList;
     private Cart userCart;
     private Role role;
     private String email;
@@ -17,6 +19,7 @@ public class User {
         this.role = role;
         this.userID = IdCreator.idCreator();
         this.userCart = new Cart(userID);
+        this.orderList = new ArrayList<>();
     }
 
     public Cart getUserCart() {
@@ -55,12 +58,16 @@ public class User {
         return userID;
     }
 
-    public Order getOrder() {
-        return order;
+    public void setUserID(Long userID) {
+        this.userID = userID;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
     }
 
     @Override
@@ -69,7 +76,7 @@ public class User {
         if (!(o instanceof User)) return false;
         User user = (User) o;
         return Objects.equals(userID, user.userID) &&
-                Objects.equals(order, user.order) &&
+                Objects.equals(orderList, user.orderList) &&
                 Objects.equals(userCart, user.userCart) &&
                 Objects.equals(role, user.role) &&
                 Objects.equals(email, user.email) &&
@@ -78,13 +85,14 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(userID, order, userCart, role, email, password);
+        return Objects.hash(userID, orderList, userCart, role, email, password);
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "userID=" + userID +
+                ", orderList=" + orderList +
                 ", userCart=" + userCart +
                 ", role=" + role +
                 ", email='" + email + '\'' +
