@@ -1,5 +1,6 @@
 package dao;
 
+import model.Order;
 import model.Product;
 import model.Role;
 import model.User;
@@ -22,4 +23,6 @@ public interface UserDao {
     Optional<User> getUserById(Long id);
 
     void addProductToCart(Product product, User currentUser);
+
+    void addOrder(User user, Order order);
 }

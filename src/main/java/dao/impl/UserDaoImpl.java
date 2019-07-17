@@ -2,6 +2,7 @@ package dao.impl;
 
 import dao.UserDao;
 import db.Storage;
+import model.Order;
 import model.Product;
 import model.Role;
 import model.User;
@@ -67,6 +68,19 @@ public class UserDaoImpl implements UserDao {
                 LOGGER.info(product + "is added to cart" + currentUser);
                 return true;
             }
+            return false;
+        }).findFirst();
+    }
+
+    @Override
+    public void addOrder(User currentUser, Order order) {
+        Storage.users.stream().filter(user -> {
+            if (user.getUserID().equals(currentUser.getUserID())) {
+                user.getOrderList().add(order);
+                LOGGER.info(order + "is added to users list" + currentUser);
+                return true;
+            }
+            LOGGER.info(order + "isn't added to list in DAO" + currentUser);
             return false;
         }).findFirst();
     }

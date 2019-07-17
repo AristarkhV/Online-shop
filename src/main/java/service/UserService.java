@@ -1,5 +1,6 @@
 package service;
 
+import model.Order;
 import model.Product;
 import model.Role;
 import model.User;
@@ -21,4 +22,6 @@ public interface UserService {
     Optional<User> getUserByEmail(String email);
 
     void addProductToCart(Product product, User currentUser);
+
+    void addOrder(User currentUser, Order order);
 }
