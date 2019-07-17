@@ -3,12 +3,12 @@ package model;
 import java.util.Objects;
 
 public class Order {
-    private Long userID;
+    private User user;
     private Long orderID;
     private String deliveryAddress;
 
-    public Order(Long userID) {
-        this.userID = userID;
+    public Order(User user) {
+        this.user = user;
         this.orderID = IdCreator.idCreator();
     }
 
@@ -16,12 +16,12 @@ public class Order {
         return orderID;
     }
 
-    public Long getUserID() {
-        return userID;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserID(Long userID) {
-        this.userID = userID;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getDeliveryAddress() {
@@ -35,7 +35,7 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "userID=" + userID +
+                "user=" + user +
                 ", orderID=" + orderID +
                 ", deliveryAddress='" + deliveryAddress + '\'' +
                 '}';
@@ -46,13 +46,13 @@ public class Order {
         if (this == o) return true;
         if (!(o instanceof Order)) return false;
         Order order = (Order) o;
-        return userID.equals(order.userID) &&
-                orderID.equals(order.orderID) &&
-                deliveryAddress.equals(order.deliveryAddress);
+        return Objects.equals(user, order.user) &&
+                Objects.equals(orderID, order.orderID) &&
+                Objects.equals(deliveryAddress, order.deliveryAddress);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userID, orderID, deliveryAddress);
+        return Objects.hash(user, orderID, deliveryAddress);
     }
 }
