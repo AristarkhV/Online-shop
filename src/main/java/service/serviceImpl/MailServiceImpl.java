@@ -47,7 +47,7 @@ public class MailServiceImpl implements MailService {
             message.setText(code.getCode());
 
             Transport.send(message);
-            logger.info("Message send succesfull to " + email);
+            logger.info("Message send successfully to " + email);
         } catch (MessagingException e) {
             logger.error("An error occurred while sending message to " + email, e);
         }

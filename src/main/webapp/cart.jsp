@@ -37,16 +37,17 @@
     </table>
 </div>
 <div name="order" align="center">
-    <form action="/cart" method="post" class="decor">
+    <form action="/store/cart" method="get" class="decor">
         <div class="form-left-decoration"></div>
         <div class="form-right-decoration"></div>
         <div class="circle"></div>
         <div class="form-inner">
             <h3>Order information ¯\_(ツ)_/¯ </h3><br>
             <input name="delivery" type="text" placeholder="Delivery address" value="${delivery}">
+            <input name="email" type="text" placeholder="Email" value="${email}">
             <h4>${error}</h4>
             <form>
-                <input type="submit" name="submit" formaction="/store/cart" formmethod="post" value="Pay">
+                <input type="submit" name="submit" formaction="/store/cart" formmethod="get" value="Pay">
             </form>
         </div>
     </form>

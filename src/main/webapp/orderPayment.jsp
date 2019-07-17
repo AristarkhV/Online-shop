@@ -5,9 +5,10 @@
     <title>Confirm payment</title>
 </head>
 <body>
-    <input type="text" name="confCode">
-<form>
-    <input type="submit" formaction="/order/payment" formmethod="get" value="Do">
+<form action="/order/payment" method="post">
+    <input type="text" name="confCode" value="${confCode}">
+    <input type="hidden" name="email" value="${email}">
+    <input type="submit" formaction="/order/payment" formmethod="post" value="Do">
 </form>
 <h1>${message}</h1>
 </body>

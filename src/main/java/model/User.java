@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class User {
@@ -18,7 +17,7 @@ public class User {
         this.role = role;
         this.userID = IdCreator.idCreator();
         this.userCart = new Cart(userID);
-        this.order = new Order(userID);
+        this.order = new Order(this);
     }
 
     public Cart getUserCart() {
@@ -94,26 +93,4 @@ public class User {
                 ", password='" + password + '\'' +
                 '}';
     }
-
-    public static class Cart {
-
-        private ArrayList<Product> userProducts;
-
-        private Long userId;
-        private int size;
-
-        public Cart(Long userId) {
-            this.userId = userId;
-            this.userProducts = new ArrayList<>();
-        }
-
-        public Long getUserId() {
-            return userId;
-        }
-
-        public ArrayList<Product> getUserProducts() {
-            return userProducts;
-        }
-    }
-
 }
