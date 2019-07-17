@@ -17,7 +17,6 @@ public class User {
         this.role = role;
         this.userID = IdCreator.idCreator();
         this.userCart = new Cart(userID);
-        this.order = new Order(this);
     }
 
     public Cart getUserCart() {
