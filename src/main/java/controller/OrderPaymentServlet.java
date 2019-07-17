@@ -38,7 +38,7 @@ public class OrderPaymentServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User userFromSession = (User) session.getAttribute("user");
         Code code = new Code(sendCnfirmCode);
-        new Thread(() -> mailService.sendConfirmCode(code)).start();
+        mailService.sendConfirmCode(code);
         session.setAttribute("code", code.getCode());
         response.sendRedirect("/orderPayment.jsp");
     }
