@@ -85,7 +85,6 @@ public class User {
     public String toString() {
         return "User{" +
                 "userID=" + userID +
-                ", order=" + order +
                 ", userCart=" + userCart +
                 ", role=" + role +
                 ", email='" + email + '\'' +
