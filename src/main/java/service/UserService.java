@@ -1,5 +1,6 @@
 package service;
 
+import model.Product;
 import model.Role;
 import model.User;
 
@@ -19,7 +20,5 @@ public interface UserService {
 
     Optional<User> getUserByEmail(String email);
 
-    void setIsAuthorized(User currentUser);
-
-    Optional<User> isAuthorized();
+    void addProductToCart(Product product, User currentUser);
 }

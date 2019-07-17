@@ -3,6 +3,7 @@ package service.serviceImpl;
 import dao.UserDao;
 import db.Storage;
 import factory.UserFactory;
+import model.Product;
 import model.Role;
 import model.User;
 import service.UserService;
@@ -12,8 +13,7 @@ import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
 
-    public static UserDao userDao = UserFactory.getInstance();
-    private Optional<User> isAuthorized = Optional.empty();
+    private static UserDao userDao = UserFactory.getInstance();
 
     @Override
     public void deleteUser(User deleteUser) {
@@ -23,16 +23,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void editUser(User editUser, String email, String password, Role role) {
         userDao.editUser(editUser, email, password, role);
-    }
-
-    @Override
-    public void setIsAuthorized(User currentUser) {
-        this.isAuthorized = Optional.ofNullable(currentUser);
-    }
-
-    @Override
-    public Optional<User> isAuthorized() {
-        return this.isAuthorized;
     }
 
     @Override
@@ -53,5 +43,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUserById(Long id) {
         return userDao.getUserById(id);
+    }
+
+    @Override
+    public void addProductToCart(Product product, User currentUser){
+        userDao.addProductToCart(product, currentUser);
     }
 }

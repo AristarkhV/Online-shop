@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class ProductServiceImpl implements ProductService {
 
-    public static ProductDao productDao = ProductFactory.getInstance();
+    private static ProductDao productDao = ProductFactory.getInstance();
 
     public ProductServiceImpl() {
     }

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <style>
-    <%@include file='css/style.css'%>
+    <%@include file='css/index.css'%>
 </style>
 <html>
 <head>
@@ -20,8 +20,6 @@
             <input type="submit" name="submit" formaction="/login" formmethod="post" value="Sign in">
         </form>
         <a href="addUser.jsp">Registration</a><br>
-        <a href="addProduct.jsp">Add items page</a><br>
-        <a href="users.jsp">Users page</a>
     </div>
 </form>
 
