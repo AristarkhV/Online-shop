@@ -1,18 +1,25 @@
 package controller;
 
+import factory.MailServiceFactory;
+import model.Code;
 import model.Order;
 import model.User;
+import service.MailService;
+import util.RandomHelper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
 @WebServlet("/store/cart")
 public class CartServlet extends HttpServlet {
+
+    private static final MailService mailService = MailServiceFactory.getInstance();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -35,14 +42,22 @@ public class CartServlet extends HttpServlet {
                 request.getSession().getAttribute("user"));
 
         String deliveryAddress = request.getParameter("delivery");
-        if (deliveryAddress.isEmpty()) {
+        String email = request.getParameter("email");
+
+        request.getRequestDispatcher("/orderPayment.jsp").forward(request, response);
+        if (deliveryAddress.isEmpty() || email.isEmpty()) {
             request.setAttribute("error", "Empty fields :(");
             request.setAttribute("order", userFromSession.get().getUserCart().getUserProducts());
             request.getRequestDispatcher("/cart.jsp").forward(request, response);
         } else {
-            Order userOrder = new Order(userFromSession.get().getUserID());
+            Order userOrder = new Order(userFromSession.get());
             userOrder.setDeliveryAddress(deliveryAddress);
             userFromSession.get().setOrder(userOrder);
+            String sendCnfirmCode = RandomHelper.generateCode();
+            HttpSession session = request.getSession();
+            Code code = new Code(sendCnfirmCode);
+            mailService.sendConfirmCode(code, email);
+            session.setAttribute("code", code.getCode());
             request.getRequestDispatcher("/orderPayment.jsp").forward(request, response);
         }
     }
