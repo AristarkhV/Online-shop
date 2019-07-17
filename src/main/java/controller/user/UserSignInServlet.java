@@ -1,7 +1,7 @@
 package controller.user;
 
-import factory.ProductServiceFactory;
-import factory.UserServiceFactory;
+import factory.service.ProductServiceFactory;
+import factory.service.UserServiceFactory;
 import model.User;
 import service.ProductService;
 import service.UserService;

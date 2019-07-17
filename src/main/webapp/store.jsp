@@ -15,7 +15,7 @@
                 type="submit"
                 name="submit"
                 formaction="/store/cart" formmethod="post"
-                value="Cart page">${counter}
+                value="Cart page">${cardsCounter}
         </button>
     </form>
 </header>
@@ -27,7 +27,7 @@
             <h4>${product.description}</h4>
             <h3>${product.price} $</h3>
             <form action="/store/add/cart" method="post" class="cart-btn">
-                <input type="hidden" name="productId" value="${product.productId}">
+                <input type="hidden" name="productID" value="${product.productID}">
                 <button type="submit">Buy</button>
             </form>
             <h4>${message}</h4>

@@ -1,16 +1,16 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Order {
-    private User user;
-    private Long orderID;
-    private String deliveryAddress;
-    private List<Product> orderProducts = new ArrayList<>();
 
-    public Order(User user, String deliveryAddress, ArrayList orderProducts) {
+    private Long orderID;
+    private User user;
+    private String deliveryAddress;
+    private ArrayList<Product> orderProducts;
+
+    public Order(User user, String deliveryAddress, ArrayList<Product> orderProducts) {
         this.orderID = IdCreator.idCreator();
         this.user = user;
         this.orderProducts = orderProducts;
@@ -19,6 +19,10 @@ public class Order {
 
     public Long getOrderID() {
         return orderID;
+    }
+
+    public void setOrderID(Long orderID) {
+        this.orderID = orderID;
     }
 
     public User getUser() {
@@ -37,13 +41,12 @@ public class Order {
         this.deliveryAddress = deliveryAddress;
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "user=" + user +
-                ", orderID=" + orderID +
-                ", deliveryAddress='" + deliveryAddress + '\'' +
-                '}';
+    public ArrayList<Product> getOrderProducts() {
+        return orderProducts;
+    }
+
+    public void setOrderProducts(ArrayList<Product> orderProducts) {
+        this.orderProducts = orderProducts;
     }
 
     @Override
@@ -51,13 +54,24 @@ public class Order {
         if (this == o) return true;
         if (!(o instanceof Order)) return false;
         Order order = (Order) o;
-        return Objects.equals(user, order.user) &&
-                Objects.equals(orderID, order.orderID) &&
-                Objects.equals(deliveryAddress, order.deliveryAddress);
+        return Objects.equals(orderID, order.orderID) &&
+                Objects.equals(user, order.user) &&
+                Objects.equals(deliveryAddress, order.deliveryAddress) &&
+                Objects.equals(orderProducts, order.orderProducts);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user, orderID, deliveryAddress);
+        return Objects.hash(orderID, user, deliveryAddress, orderProducts);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderID=" + orderID +
+                ", user=" + user +
+                ", deliveryAddress='" + deliveryAddress + '\'' +
+                ", orderProducts=" + orderProducts +
+                '}';
     }
 }

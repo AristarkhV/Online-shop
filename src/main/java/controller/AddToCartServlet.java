@@ -1,11 +1,13 @@
 package controller;
 
 import dao.impl.ProductDaoImpl;
-import factory.ProductServiceFactory;
-import factory.UserServiceFactory;
+import factory.service.CartServiceFactory;
+import factory.service.ProductServiceFactory;
+import factory.service.UserServiceFactory;
 import model.Product;
 import model.User;
 import org.apache.log4j.Logger;
+import service.CartService;
 import service.ProductService;
 import service.UserService;
 
@@ -22,21 +24,22 @@ public class AddToCartServlet extends HttpServlet {
 
     private static final Logger LOGGER = Logger.getLogger(ProductDaoImpl.class);
     private ProductService productService = ProductServiceFactory.getInstance();
-    private UserService userService = UserServiceFactory.getInstance();
+    private static final CartService cartService = CartServiceFactory.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Optional<User> userFromSession = Optional.ofNullable((User) request.getSession().getAttribute("user"));
-        if (userFromSession.isPresent()) {
-            String id = request.getParameter("productId");
-            Optional<Product> addProduct = productService.getProductById(Long.parseLong(id));
-            if (addProduct.isPresent()) {
-                LOGGER.info("Try to add " + addProduct.get()
+        Optional<User> currentUser = Optional.ofNullable((User)
+                                         request.getSession().getAttribute("user"));
+        if (currentUser.isPresent()) {
+            String id = request.getParameter("productID");
+            Optional<Product> additionalProduct = productService.getProductById(Long.parseLong(id));
+            if (additionalProduct.isPresent()) {
+                LOGGER.info("Try to add " + additionalProduct.get()
                         + "to "
-                        + userFromSession.get() + " cart... \n");
-                userService.addProductToCart(addProduct.get(), userFromSession.get());
+                        + currentUser.get() + " cart... \n");
+                cartService.addCartProduct(additionalProduct.get());
                 response.sendRedirect("/store");
             } else {
                 LOGGER.info("Product not found  \n" + id);

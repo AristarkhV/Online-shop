@@ -24,7 +24,7 @@
             <tr>
                 <td>${user.email}</td>
                 <td>${user.password}</td>
-                <td>${user.role.role}</td>
+                <td>${user.roleID.roleID}</td>
                 <td class="td-button">
                     <form action="/admin/edit/user" method="get">
                         <input type="hidden" name="userID" value="${user.userID}">

@@ -1,4 +1,4 @@
-package factory;
+package factory.service;
 
 import service.MailService;
 import service.serviceImpl.MailServiceImpl;

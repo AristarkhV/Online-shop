@@ -15,7 +15,7 @@ public class OrderPaymentServlet extends HttpServlet {
         String code = (String) request.getSession().getAttribute("code");
         String confirm = request.getParameter("confCode");
         if (code.equals(confirm)) {
-            request.setAttribute("message", "Don't worry :)");
+            request.setAttribute("message", "Don't worry go to sleep :)");
         } else {
             request.setAttribute("message", "Invalid code, try again");
         }

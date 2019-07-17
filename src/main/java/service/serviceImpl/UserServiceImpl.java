@@ -1,10 +1,7 @@
 package service.serviceImpl;
 
 import dao.UserDao;
-import db.Storage;
 import factory.UserFactory;
-import model.Order;
-import model.Product;
 import model.Role;
 import model.User;
 import service.UserService;
@@ -44,15 +41,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUserById(Long id) {
         return userDao.getUserById(id);
-    }
-
-    @Override
-    public void addProductToCart(Product product, User currentUser){
-        userDao.addProductToCart(product, currentUser);
-    }
-
-    @Override
-    public void addOrder(User currentUser, Order order) {
-        userDao.addOrder(currentUser, order);
     }
 }

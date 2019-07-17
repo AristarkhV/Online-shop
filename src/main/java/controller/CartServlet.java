@@ -1,15 +1,9 @@
 package controller;
 
-import factory.MailServiceFactory;
-import factory.OrderServiceFactory;
-import factory.UserServiceFactory;
+import factory.service.CartServiceFactory;
 import model.Code;
-import model.Order;
 import model.User;
-import service.MailService;
-import service.OrderService;
-import service.UserService;
-import util.RandomHelper;
+import service.CartService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,17 +17,24 @@ import java.util.Optional;
 @WebServlet("/store/cart")
 public class CartServlet extends HttpServlet {
 
-    private static final MailService mailService = MailServiceFactory.getInstance();
-    private static final OrderService orderService = OrderServiceFactory.getInstance();
-    private static final UserService userService = UserServiceFactory.getInstance();
+    private static final CartService cartService = CartServiceFactory.getInstance();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Optional<User> userFromSession = Optional.ofNullable((User)
+
+        Optional<User> currentUser = Optional.ofNullable((User)
                 request.getSession().getAttribute("user"));
-        if (userFromSession.isPresent()) {
-            request.setAttribute("order", userFromSession.get().getUserCart().getUserProducts());
-            request.getRequestDispatcher("/cart.jsp").forward(request, response);
+
+        if (currentUser.isPresent()) {
+            if (cartService.getCartProducts().isPresent()) {
+                request.setAttribute("flag", 1);
+                request.setAttribute("order", cartService.getCartProducts().get());
+                request.getRequestDispatcher("/cart.jsp").forward(request, response);
+            } else {
+                request.setAttribute("error", "Empty cart :(");
+                request.setAttribute("flag", 0);
+                request.getRequestDispatcher("/cart.jsp").forward(request, response);
+            }
         } else {
             request.setAttribute("error", "Sign in, please");
             request.getRequestDispatcher("/index.jsp").forward(request, response);
@@ -44,27 +45,30 @@ public class CartServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Optional<User> userFromSession = Optional.ofNullable((User)
+        Optional<User> currentUser = Optional.ofNullable((User)
                 request.getSession().getAttribute("user"));
 
-        String deliveryAddress = request.getParameter("delivery");
-        String email = request.getParameter("email");
-        request.getRequestDispatcher("/orderPayment.jsp").forward(request, response);
-        if (deliveryAddress.isEmpty() || email.isEmpty()) {
-            request.setAttribute("error", "Empty fields :(");
-            request.setAttribute("order", userFromSession.get().getUserCart().getUserProducts());
-            request.getRequestDispatcher("/cart.jsp").forward(request, response);
+        if (cartService.getCartProducts().isPresent()) {
+            String deliveryAddress = request.getParameter("delivery");
+            String email = request.getParameter("email");
+            if (deliveryAddress.isEmpty() || email.isEmpty()) {
+                request.setAttribute("error", "Empty fields :(");
+                request.setAttribute("flag", 1);
+                request.setAttribute("order", cartService.getCartProducts().get());
+                request.getRequestDispatcher("/cart.jsp").forward(request, response);
+            } else {
+                cartService.createNewOrder(currentUser.get(),
+                        deliveryAddress,
+                        cartService.getCartProducts().get());
+                Code code = cartService.sendConfirmationCode(email);
+                HttpSession session = request.getSession();
+                session.setAttribute("code", code.getCode());
+                request.getRequestDispatcher("/orderPayment.jsp").forward(request, response);
+            }
         } else {
-            Order userOrder = new Order(userFromSession.get(),
-                    deliveryAddress,
-                    userFromSession.get().getUserCart().getUserProducts());
-            orderService.addOrder(userOrder);
-            String sendCnfirmCode = RandomHelper.generateCode();
-            HttpSession session = request.getSession();
-            Code code = new Code(sendCnfirmCode);
-            mailService.sendConfirmCode(code, email);
-            session.setAttribute("code", code.getCode());
-            request.getRequestDispatcher("/orderPayment.jsp").forward(request, response);
+            request.setAttribute("error", "Empty cart :(");
+            request.setAttribute("flag", 0);
+            request.getRequestDispatcher("/cart.jsp").forward(request, response);
         }
     }
 }
