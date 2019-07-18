@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
+
     List<User> getAll();
 
     void addUser(User user);
@@ -18,8 +19,4 @@ public interface UserService {
     Optional<User> getUserById(Long id);
 
     Optional<User> getUserByEmail(String email);
-
-    void setIsAuthorized(User currentUser);
-
-    Optional<User> isAuthorized();
 }

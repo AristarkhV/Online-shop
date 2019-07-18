@@ -4,16 +4,24 @@ import java.util.Objects;
 
 public class User {
 
-    private Long userId;
+    private Long userID;
+    private Role role;
     private String email;
     private String password;
-    private Role role;
 
     public User(String email, String password, Role role) {
         this.email = email;
         this.password = password;
         this.role = role;
-        this.userId = IdCreator.idCreator();
+        this.userID = IdCreator.idCreator();
+    }
+
+    public Long getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
     }
 
     public Role getRole() {
@@ -40,37 +48,29 @@ public class User {
         this.password = password;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                '}';
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return Objects.equals(userId, user.userId) &&
+        return Objects.equals(userID, user.userID) &&
+                Objects.equals(role, user.role) &&
                 Objects.equals(email, user.email) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(role, user.role);
+                Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, email, password, role);
+        return Objects.hash(userID, role, email, password);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userID=" + userID +
+                ", role=" + role +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

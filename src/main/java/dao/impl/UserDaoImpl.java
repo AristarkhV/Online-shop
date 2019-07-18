@@ -31,9 +31,9 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public synchronized void editUser(User editUser, String email, String password, Role role) {
+    public void editUser(User editUser, String email, String password, Role role) {
         Storage.users.stream().filter(user -> {
-            if (user.getUserId().equals(editUser.getUserId())) {
+            if (user.getUserID().equals(editUser.getUserID())) {
                 user.setPassword(password);
                 user.setEmail(email);
                 user.setRole(role);
@@ -41,7 +41,7 @@ public class UserDaoImpl implements UserDao {
             }
             return false;
         }).findFirst();
-        LOGGER.info(editUser + " is updated \n");
+        LOGGER.info(editUser + " is edited \n");
     }
 
     @Override
@@ -54,7 +54,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Optional<User> getUserById(Long id) {
         return Storage.users.stream()
-                .filter(user -> user.getUserId().equals(id))
+                .filter(user -> user.getUserID().equals(id))
                 .findFirst();
     }
 }

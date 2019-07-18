@@ -44,7 +44,7 @@ public class AddUserServlet extends HttpServlet {
                 if (password.equals(repeatPassword)) {
                     Role role = new Role(request.getParameter("role"));
                     if (id != null && !id.isEmpty()) {
-                        Optional<User> editUser = userService.getUserById(currentID(id).get());
+                        Optional<User> editUser = userService.getUserById(Long.parseLong(id));
                         if (editUser.isPresent()) {
                             LOGGER.info("Try to edit  " + editUser + " ... \n");
                             userService.editUser(editUser.get(), email, password, role);
@@ -75,12 +75,5 @@ public class AddUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.sendRedirect("/addUser.jsp");
-    }
-
-    private Optional<Long> currentID(String id) {
-        if (id == null) {
-            return Optional.empty();
-        }
-        return Optional.of(Long.parseLong(id));
     }
 }

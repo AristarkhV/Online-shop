@@ -17,5 +17,5 @@ public interface UserDao {
 
     Optional<User> getUserByEmail(String email);
 
-    public Optional<User> getUserById(Long id);
+    Optional<User> getUserById(Long id);
 }

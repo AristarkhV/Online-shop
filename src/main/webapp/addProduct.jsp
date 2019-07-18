@@ -17,7 +17,7 @@
         <input name="name" placeholder="Name" value="${productName}">
         <input name="price" type="number" placeholder="Price" value="${productPrice}">
         <textarea name="description" placeholder="Description" rows="3">${productDescription}</textarea>
-        <input type="hidden" name="productId" value="${productId}">
+        <input type="hidden" name="productID" value="${productID}">
         <h4>${error}</h4>
         <h4>${done}</h4>
         <form>
