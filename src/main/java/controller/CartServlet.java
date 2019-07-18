@@ -1,9 +1,13 @@
 package controller;
 
 import factory.service.CartServiceFactory;
+import factory.service.MailServiceFactory;
+import factory.service.OrderServiceFactory;
 import model.Code;
 import model.User;
 import service.CartService;
+import service.MailService;
+import service.OrderService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +22,7 @@ import java.util.Optional;
 public class CartServlet extends HttpServlet {
 
     private static final CartService cartService = CartServiceFactory.getInstance();
+    private static final OrderService orderService = OrderServiceFactory.getInstance();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -57,10 +62,10 @@ public class CartServlet extends HttpServlet {
                 request.setAttribute("order", cartService.getCartProducts().get());
                 request.getRequestDispatcher("/cart.jsp").forward(request, response);
             } else {
-                cartService.createNewOrder(currentUser.get(),
+                orderService.createNewOrder(currentUser.get(),
                         deliveryAddress,
                         cartService.getCartProducts().get());
-                Code code = cartService.sendConfirmationCode(email);
+                Code code = orderService.sendConfirmationCode(email);
                 HttpSession session = request.getSession();
                 session.setAttribute("code", code.getCode());
                 request.getRequestDispatcher("/orderPayment.jsp").forward(request, response);
