@@ -7,12 +7,10 @@ body {
 }
 
 header {
-    background: #1e991a;
-    float             :left;
-    height            :95px;
-    margin            :0;
-    width             :100%;
+    overflow: hidden;
+    background-color: #1e991a;
     color: #2D2020;
+    height: 95px;
 }
 
 .productDiv {
@@ -29,17 +27,17 @@ header {
     position: relative;
 }
 
-.products div{
+.products div {
     margin-top: 40px;
 }
 
-.cart-btn{
+.cart-btn {
     display: inline;
     border-radius: 15%;
     text-align: end;
 }
 
-.cart-toggle{
+.cart-toggle {
     border-radius: 50%;
     border: none;
     background: #FF6A00 url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/148866/cd-cart.svg) no-repeat center center;
@@ -58,19 +56,20 @@ table {
     text-align: center;
     border: none;
 }
+
 th {
     background: white;
-    color: gray(35%);
-    text-shadow: 0 1px 1px #2D2020;
+    color: #333333;
     padding: 10px 20px;
 }
+
 th, td {
     border-style: solid;
     border-width: 0 1px 1px 0;
     border-color: grey;
-
     border-right: none;
 }
+
 th:first-child, td:first-child {
     text-align: left;
 }
@@ -78,6 +77,7 @@ th:first-child, td:first-child {
 th:last-child {
     border-right: none;
 }
+
 td {
     padding: 10px 20px;
 }
@@ -90,67 +90,41 @@ tr td:last-child {
     padding: 10px 20px;
     background: none;
     border: none;
-    border: none;
 }
 
-.edit{
-    border: none;
+.add {
     border-radius: 10px;
+    border-color: #1e991a;
     font-size: 14px;
     padding: 5px 30px;
     background: white;
     color: darkslategray;
+    cursor: pointer;
 }
 
-.delete{
-    border: none;
+.edit {
     border-radius: 10px;
+    border-color: #FF6A00;
+    font-size: 14px;
+    padding: 5px 30px;
+    background: white;
+    color: darkslategray;
+    cursor: pointer;
+}
+
+.delete {
+    border-radius: 10px;
+    border-color: red;
     font-size: 14px;
     padding: 5px 25px;
     background: white;
     color: darkslategray;
+    cursor: pointer;
 }
 
-.form-radio
-{
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    display: inline-flex;
-    position: relative;
-    background-color: #f1f1f1;
-    color: #666;
-    top: 10px;
-    height: 30px;
-    width: 20px;
-    border: 0;
-    border-radius: 50px;
-    cursor: pointer;
-    margin-right: 7px;
-    outline: none;
-}
-.form-radio:checked::before
-{
-    position: absolute;
-    font: 13px/1 'Open Sans', sans-serif;
-    left: 11px;
-    top: 7px;
-    content: '\02143';
-    transform: rotate(40deg);
-}
-.form-radio:hover
-{
-    background-color: #f7f7f7;
-}
-.form-radio:checked
-{
-    background-color: #f1f1f1;
-}
-label
-{
-    font: 15px/1.7 'Open Sans', sans-serif;
-    color: #333;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    cursor: pointer;
+.error h3 {
+    width: 100%;
+    background: #ff9e9b;
+    text-align: center;
+    color: darkred;
 }

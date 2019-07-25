@@ -56,9 +56,9 @@ public class OrderDaoImpl implements OrderDao {
         Optional<Order> order = Optional.empty();
         ArrayList<Product> products = new ArrayList<>();
         String sql = "SELECT product.idProduct, name, price, description FROM user_order " +
-                "INNER JOIN order_product on order_product.idOrder = user_order.idOrder " +
-                "INNER JOIN product on product.idProduct = order_product.idProduct " +
-                "WHERE user_order.idUser = '" + value.getUserID() + "'";
+                        "INNER JOIN order_product on order_product.idOrder = user_order.idOrder " +
+                        "INNER JOIN product on product.idProduct = order_product.idProduct " +
+                        "WHERE user_order.idUser = '" + value.getUserID() + "'";
         try (Connection Connection = DBConnection.getConnection();
              Statement statement = Connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
@@ -68,12 +68,10 @@ public class OrderDaoImpl implements OrderDao {
                                               resultSet.getString("email"),
                                               resultSet.getString("delivery_address"),
                                               products, false));
-                Product product = new Product(
-                        resultSet.getLong("idProduct"),
-                        resultSet.getString("name"),
-                        resultSet.getString("description"),
-                        resultSet.getDouble("price")
-                );
+                Product product = new Product(resultSet.getLong("idProduct"),
+                                              resultSet.getString("name"),
+                                              resultSet.getString("description"),
+                                              resultSet.getDouble("price"));
                 products.add(product);
             }
             order.get().setOrderProducts(products);

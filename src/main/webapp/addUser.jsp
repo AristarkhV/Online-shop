@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <style>
-    <%@include file='css/style.css' %>
+    <%@include file='css/index.css' %>
 </style>
 <html>
 <head>
@@ -17,9 +17,9 @@
         <input name="email" type="email" placeholder="Email" value="${email}">
         <input name="password" type="password" placeholder="Password" value="${userPassword}">
         <input name="rpassword" type="password" placeholder="Repeat password">
-        <input type="radio" name="roleID" value="admin" id="radio-admin" class="form-radio" checked>
+        <input type="radio" name="role" value="admin" id="radio-admin" class="form-radio" checked>
         <label for="radio-admin">Admin</label>
-        <input type="radio" name="roleID" value="user" id="radio-user" class="form-radio">
+        <input type="radio" name="role" value="user" id="radio-user" class="form-radio">
         <label for="radio-user">User</label>
         <input type="hidden" name="userID" value="${userID}">
         <h4>${error}</h4>

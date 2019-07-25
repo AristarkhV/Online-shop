@@ -12,6 +12,8 @@
 <form action="/order/payment" method="post">
     <input type="text" name="confCode" value="${confCode}">
     <input type="hidden" name="email" value="${email}">
+    <input name="delivery" type="hidden" value="${delivery}">
+    <input name="email" type="hidden" value="${email}">
     <input type="submit" formaction="/order/payment" formmethod="post" value="Confirm">
 </form>
 <h1>${message}</h1>

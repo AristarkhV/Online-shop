@@ -1,14 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <style>
-    <%@include file='css/style.css' %>
+    <%@include file='css/index.css' %>
 </style>
 <html>
 <head>
     <title>Add product</title>
 </head>
 <body>
-<form action="addProduct" method="post" class="decor">
+<form action="/addProduct" method="post" class="decor">
     <div class="form-left-decoration"></div>
     <div class="form-right-decoration"></div>
     <div class="circle"></div>
