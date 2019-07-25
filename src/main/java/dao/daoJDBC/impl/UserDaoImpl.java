@@ -28,13 +28,11 @@ public class UserDaoImpl implements UserDao {
              ResultSet resultSet = statement.executeQuery(
                      "SELECT * FROM user INNER JOIN role on role.idRole = user.idRole ")) {
             while (resultSet.next()) {
-                userList.add(new User(
-                        resultSet.getLong("idUser"),
-                        resultSet.getString("email"),
-                        resultSet.getString("password"),
-                        new Role(
-                                resultSet.getLong("idRole"),
-                                resultSet.getString("name"))));
+                userList.add(new User(resultSet.getLong("idUser"),
+                                      resultSet.getString("email"),
+                                      resultSet.getString("password"),
+                                      new Role(resultSet.getLong("idRole"),
+                                               resultSet.getString("name"))));
             }
         } catch (SQLException e) {
             logger.error("SQl exception " + e.getMessage());
@@ -46,9 +44,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void addUser(User value) {
 
-        String sql = String.format("INSERT INTO user(email, password, idRole) " +
-                        "VALUES('%s', '%s', '%s')",
-                value.getEmail(), value.getPassword(), value.getRole().getRoleID());
+        String sql = String.format("INSERT INTO user(email, password, idRole) VALUES('%s', '%s', '%s')",
+                                    value.getEmail(), value.getPassword(), value.getRole().getRoleID());
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(sql);
@@ -98,13 +95,11 @@ public class UserDaoImpl implements UserDao {
              ResultSet resultSet = statement.executeQuery(sql)) {
             if(resultSet.next()) {
                 user = Optional.of(
-                    new User(
-                        resultSet.getLong("idUser"),
-                        resultSet.getString("email"),
-                        resultSet.getString("password"),
-                        new Role(
-                                resultSet.getLong("idRole"),
-                                resultSet.getString("name"))));
+                    new User(resultSet.getLong("idUser"),
+                             resultSet.getString("email"),
+                             resultSet.getString("password"),
+                             new Role(resultSet.getLong("idRole"),
+                                      resultSet.getString("name"))));
             }
         } catch (SQLException e) {
             logger.error("SQl exception " + e.getMessage());
@@ -124,13 +119,11 @@ public class UserDaoImpl implements UserDao {
                           "WHERE user.idUser = " + id)) {
             if(resultSet.next()) {
                 user = Optional.of(
-                        new User(
-                                resultSet.getLong("idUser"),
-                                resultSet.getString("email"),
-                                resultSet.getString("password"),
-                                new Role(
-                                        resultSet.getLong("idRole"),
-                                        resultSet.getString("name"))));
+                        new User(resultSet.getLong("idUser"),
+                                 resultSet.getString("email"),
+                                 resultSet.getString("password"),
+                                 new Role(resultSet.getLong("idRole"),
+                                          resultSet.getString("name"))));
             }
         } catch (SQLException e) {
             logger.error("SQl exception " + e.getMessage());
