@@ -53,12 +53,8 @@ public class CartDaoImpl implements CartDao {
                  Statement nextStatement = nextConnection.createStatement();
                  ResultSet nextResultSet = nextStatement.executeQuery(sql)) {
                 while (nextResultSet.next()) {
-                    Product product = new Product(
-                            nextResultSet.getLong("idProduct"),
-                            nextResultSet.getString("name"),
-                            nextResultSet.getString("description"),
-                            nextResultSet.getDouble("price")
-                    );
+                    Product product = new Product(nextResultSet.getLong("idProduct"), nextResultSet.getString("name"),
+                                                  nextResultSet.getString("description"), nextResultSet.getDouble("price"));
                     products.add(product);
                 }
                 if(cart.isPresent()) {
@@ -78,8 +74,7 @@ public class CartDaoImpl implements CartDao {
     @Override
     public void addProductToCart(Cart cart, Product product) {
 
-        String sql = String.format("INSERT INTO product_cart" +
-                                   "(idCart, idProduct) VALUES('%s', '%s')",
+        String sql = String.format("INSERT INTO product_cart (idCart, idProduct) VALUES('%s', '%s')",
                                      cart.getCartID(), product.getProductID());
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement()) {

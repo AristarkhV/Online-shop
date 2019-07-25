@@ -20,6 +20,9 @@
     </form>
 </header>
 <body>
+<div class="error">
+    <h3>${message}</h3>
+</div>
 <div class="products">
     <c:forEach var="product" items="${products}">
         <div class="productDiv">
@@ -28,9 +31,8 @@
             <h3>${product.price} $</h3>
             <form action="/store/add/cart" method="post" class="cart-btn">
                 <input type="hidden" name="productID" value="${product.productID}">
-                <button type="submit">Buy</button>
+                <button class="add" type="submit">Buy</button>
             </form>
-            <h4>${message}</h4>
         </div>
     </c:forEach>
 </div>

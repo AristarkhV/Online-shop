@@ -27,7 +27,7 @@
             <th>Description</th>
             </th>
         </tr>
-<c:set var = "check" scope = "page" value = "${flag}"/>
+<c:set var = "check" scope = "page" value = "${productNumb}"/>
 <c:if test = "${check > 0}">
         <c:forEach var="product" items="${order}">
             <tr>
@@ -50,10 +50,10 @@
             <input name="email" type="text" placeholder="Email" value="${email}">
             <h4>${error}</h4>
             <form>
-                <input type="submit" name="submit" formaction="/store/cart" formmethod="get" value="Pay">
+                <input class="add" type="submit" name="submit" formaction="/store/cart" formmethod="get" value="Pay">
             </form>
             <form>
-                <input type="submit" name="submit" formaction="/store" formmethod="get" value="Store">
+                <input class="add" type="submit" name="submit" formaction="/store" formmethod="get" value="Store">
             </form>
         </div>
     </form>

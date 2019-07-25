@@ -42,11 +42,8 @@ public class CodeDaoImpl implements CodeDao {
                           "ORDER BY idCode DESC LIMIT 1" + email)) {
             if (resultSet.next()) {
                 code = Optional.of(
-                        new Code(
-                                resultSet.getLong("idCode"),
-                                resultSet.getString("code"),
-                                resultSet.getLong("idOrder"),
-                                resultSet.getString("email")));
+                        new Code(resultSet.getLong("idCode"), resultSet.getString("code"),
+                                 resultSet.getLong("idOrder"), resultSet.getString("email")));
             }
         } catch (SQLException e) {
             LOGGER.error("SQl exception " + e.getMessage());
