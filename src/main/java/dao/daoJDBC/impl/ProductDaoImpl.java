@@ -40,6 +40,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void addProduct(Product value) {
+
         String sql = String.format("INSERT INTO product(name, description, price) VALUES('%s', '%s', '%s')",
                                     value.getName(), value.getDescription(), value.getPrice());
         try (Connection connection = DBConnection.getConnection();
@@ -87,15 +88,12 @@ public class ProductDaoImpl implements ProductDao {
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(
-                     "SELECT * FROM product WHERE product.idProduct = " + id
-             )) {
+                     "SELECT * FROM product WHERE product.idProduct = " + id)) {
             if (resultSet.next()) {
                 product = Optional.of(
-                        new Product(
-                                resultSet.getLong("idProduct"),
-                                resultSet.getString("name"),
-                                resultSet.getString("description"),
-                                resultSet.getDouble("price")));
+                        new Product(resultSet.getLong("idProduct"), resultSet.getString("name"),
+                                    resultSet.getString("description"),
+                                    resultSet.getDouble("price")));
             }
         } catch (SQLException e) {
             logger.error("SQl exception " + e.getMessage());
