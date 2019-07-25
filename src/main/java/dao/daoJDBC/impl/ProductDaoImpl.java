@@ -57,6 +57,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void deleteProduct(Product value) {
+
         String sql = "DELETE FROM product WHERE idProduct = '" + value.getProductID() + "'";
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement()) {
@@ -69,16 +70,11 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void editProduct(Product value) {
-        String sql = String.format("UPDATE product SET " +
-                        "name = '%s', " +
-                        "description = '%s', " +
-                        "price = '%s' " +
-                        "WHERE idProduct = %d;",
-                value.getName(),
-                value.getDescription(),
-                value.getPrice(),
-                value.getProductID()
-        );
+
+        String sql = String.format("UPDATE product SET name = '%s', description = '%s', price = '%s' " +
+                                   "WHERE idProduct = %d;",
+                                    value.getName(), value.getDescription(),
+                                    value.getPrice(), value.getProductID());
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(sql);
@@ -90,6 +86,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public Optional<Product> getProductById(Long id) {
+
         Optional<Product> product = Optional.empty();
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement();
@@ -102,8 +99,7 @@ public class ProductDaoImpl implements ProductDao {
                                 resultSet.getLong("idProduct"),
                                 resultSet.getString("name"),
                                 resultSet.getString("description"),
-                                resultSet.getDouble("price")
-                        ));
+                                resultSet.getDouble("price")));
             }
         } catch (SQLException e) {
             logger.error("SQl exception " + e.getMessage());

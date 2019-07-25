@@ -18,6 +18,7 @@ public class RoleDaoImpl implements RoleDao {
 
     @Override
     public Optional<Role> getRoleByName(String value) {
+
         try (Connection connection = DBConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_ROLE_BY_NAME);
             preparedStatement.setString(1, value);

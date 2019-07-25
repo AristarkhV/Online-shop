@@ -33,6 +33,7 @@ public class CodeDaoImpl implements CodeDao {
 
     @Override
     public Optional<Code> getCode(String email) {
+
         Optional<Code> code = Optional.empty();
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement();

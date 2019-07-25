@@ -34,8 +34,7 @@ public class UserDaoImpl implements UserDao {
                         resultSet.getString("password"),
                         new Role(
                                 resultSet.getLong("idRole"),
-                                resultSet.getString("name")
-                        )));
+                                resultSet.getString("name"))));
             }
         } catch (SQLException e) {
             logger.error("SQl exception " + e.getMessage());
@@ -46,6 +45,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void addUser(User value) {
+
         String sql = String.format("INSERT INTO user(email, password, idRole) " +
                         "VALUES('%s', '%s', '%s')",
                 value.getEmail(), value.getPassword(), value.getRole().getRoleID());
@@ -60,6 +60,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void deleteUser(User value) {
+
         String sql = "DELETE FROM user WHERE idUser = '" + value.getUserID() + "'";
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement()) {
@@ -72,12 +73,11 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void editUser(User value) {
+
         String sql = String.format("UPDATE user SET " +
-                        "email = '%s', password = '%s', idRole = '%s' " +
-                        "WHERE idUser = %d;",
-                         value.getEmail(), value.getPassword(), value.getRole().getRoleID(),
-                         value.getUserID()
-        );
+                                "email = '%s', password = '%s', idRole = '%s' WHERE idUser = %d;",
+                                 value.getEmail(), value.getPassword(), value.getRole().getRoleID(),
+                                 value.getUserID());
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(sql);
@@ -89,6 +89,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> getUserByEmail(String email) {
+
         Optional<User> user = Optional.empty();
         String sql = "SELECT * FROM user INNER JOIN role on role.idRole = user.idRole "
                    + "WHERE user.email = '" + email + "'";
@@ -114,6 +115,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> getUserById(Long id) {
+
         Optional<User> user = Optional.empty();
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement();
@@ -128,8 +130,7 @@ public class UserDaoImpl implements UserDao {
                                 resultSet.getString("password"),
                                 new Role(
                                         resultSet.getLong("idRole"),
-                                        resultSet.getString("name")
-                                )));
+                                        resultSet.getString("name"))));
             }
         } catch (SQLException e) {
             logger.error("SQl exception " + e.getMessage());
