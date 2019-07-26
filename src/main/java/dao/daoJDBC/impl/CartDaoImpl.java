@@ -60,7 +60,7 @@ public class CartDaoImpl implements CartDao {
                     products.add(product);
                 }
                 if(cart.isPresent()) {
-                    cart.get().setCartProducts(products);
+                    cart.get().setProducts(products);
                 }
             } catch (SQLException e) {
                 LOGGER.error("SQl exception " + e.getMessage());

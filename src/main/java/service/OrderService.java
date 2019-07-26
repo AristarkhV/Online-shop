@@ -6,12 +6,15 @@ import model.Product;
 import model.User;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public interface OrderService {
 
-    void addOrder(Order order);
+    void addOrder(Order value, User user);
 
-    void createNewOrder(User user, String deliveryAddress, ArrayList<Product> products);
+    Optional<Order> getUserOrder(User value);
 
-    Code sendConfirmationCode(String email);
+    void createOrder(User user, String email, String deliveryAddress, ArrayList<Product> products);
+
+    Code sendConfirmationCode(String email, Long orderID);
 }

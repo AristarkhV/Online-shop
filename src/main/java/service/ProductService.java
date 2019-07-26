@@ -9,11 +9,11 @@ public interface ProductService {
 
     List<Product> getAll();
 
-    void addProduct(Product product);
+    void addProduct(Product value);
 
-    void deleteProduct(Product deleteProduct);
+    void deleteProduct(Product value);
 
-    void editProduct(Product editProduct, String name, Double price, String description);
+    void editProduct(Product value);
 
     Optional<Product> getProductById(Long id);
 }

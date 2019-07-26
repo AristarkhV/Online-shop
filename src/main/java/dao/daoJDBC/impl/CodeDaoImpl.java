@@ -18,7 +18,7 @@ public class CodeDaoImpl implements CodeDao {
     @Override
     public void addCode(Code value) {
 
-        String sql = String.format("INSERT INTO code(name.email, idOrder) " +
+        String sql = String.format("INSERT INTO code(value, email, idOrder) " +
                                    "VALUES('%s', '%s', '%s')",
                                     value.getCode(), value.getEmail(),
                                     value.getOrderID());
@@ -38,11 +38,11 @@ public class CodeDaoImpl implements CodeDao {
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(
-                     "SELECT * FROM code INNER JOIN user_order WHERE email = %s " +
-                          "ORDER BY idCode DESC LIMIT 1" + email)) {
+                     "SELECT * FROM code INNER JOIN user_order WHERE code.email = '" + email + "' " +
+                          "ORDER BY idCode DESC LIMIT 1")) {
             if (resultSet.next()) {
                 code = Optional.of(
-                        new Code(resultSet.getLong("idCode"), resultSet.getString("code"),
+                        new Code(resultSet.getLong("idCode"), resultSet.getString("value"),
                                  resultSet.getLong("idOrder"), resultSet.getString("email")));
             }
         } catch (SQLException e) {

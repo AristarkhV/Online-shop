@@ -20,7 +20,7 @@ public class OrderDaoImpl implements OrderDao {
     private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
 
     @Override
-    public void addOrder(Order value) {
+    public void addOrder(Order value, User user) {
 
         String sqlOrder = String.format("INSERT INTO user_order(idUser, email, delivery_address) " +
                                            "VALUES('%s', '%s', '%s')",
@@ -33,20 +33,34 @@ public class OrderDaoImpl implements OrderDao {
         } catch (SQLException e) {
             LOGGER.error("SQl exception " + e.getMessage());
         }
-        List<Product> products  =  value.getOrderProducts();
-        int i = 0;
-        while (products.size() != i) {
-            String sql = String.format("INSERT INTO order_product (idOrder, idProduct) " +
-                                        "VALUES('%d', '%d')",
-                                         value.getOrderID(), products.get(i).getProductID());
-            try (Connection connection = DBConnection.getConnection();
-                 Statement statement = connection.createStatement()) {
-                statement.execute(sql);
-                LOGGER.info(products.get(i) + " added to order_product table");
-            } catch (SQLException e) {
-                LOGGER.error("SQl exception " + e.getMessage());
+        Long orderID;
+                String sqlOrderID = String.format("SELECT idOrder FROM user_order WHERE idUser = " +
+                                                                                  user.getUserID()+
+                                                 " ORDER BY idOrder DESC LIMIT 1");
+        try (Connection Connection = DBConnection.getConnection();
+             Statement statement = Connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sqlOrderID)) {
+            if (resultSet.next()) {
+                orderID = resultSet.getLong("idOrder");
+                List<Product> products  =  value.getOrderProducts();
+                int i = 0;
+                while (i < products.size()) {
+                    String sql = String.format("INSERT INTO order_product (idOrder, idProduct) " +
+                                               "VALUES('%d', '%d')",
+                                                orderID, products.get(i).getProductID());
+                    try (Connection connection = DBConnection.getConnection();
+                         Statement productStatement = connection.createStatement()) {
+                        productStatement.execute(sql);
+                        LOGGER.info(products.get(i) + " added to order_product table");
+                    } catch (SQLException e) {
+                        LOGGER.error("SQl exception " + e.getMessage());
+                    }
+                    i++;
+                }
             }
-            i++;
+                LOGGER.info(value + " added to db");
+        } catch (SQLException e) {
+            LOGGER.error("SQl exception " + e.getMessage());
         }
     }
 
@@ -55,10 +69,13 @@ public class OrderDaoImpl implements OrderDao {
 
         Optional<Order> order = Optional.empty();
         ArrayList<Product> products = new ArrayList<>();
-        String sql = "SELECT product.idProduct, name, price, description FROM user_order " +
-                        "INNER JOIN order_product on order_product.idOrder = user_order.idOrder " +
-                        "INNER JOIN product on product.idProduct = order_product.idProduct " +
-                        "WHERE user_order.idUser = '" + value.getUserID() + "'";
+        String sql = "SELECT user_order.idOrder, user_order.email, user_order.delivery_address, " +
+                            "product.idProduct, name, price, description " +
+                     "FROM user_order " +
+                          "INNER JOIN order_product on order_product.idOrder = user_order.idOrder " +
+                          "INNER JOIN product on product.idProduct = order_product.idProduct " +
+                          "WHERE user_order.idUser = " + value.getUserID() +
+                     " ORDER BY user_order.idOrder DESC LIMIT 1";
         try (Connection Connection = DBConnection.getConnection();
              Statement statement = Connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
@@ -67,7 +84,7 @@ public class OrderDaoImpl implements OrderDao {
                 order = Optional.of(new Order(resultSet.getLong("idOrder"), value,
                                               resultSet.getString("email"),
                                               resultSet.getString("delivery_address"),
-                                              products, false));
+                                              products));
                 Product product = new Product(resultSet.getLong("idProduct"),
                                               resultSet.getString("name"),
                                               resultSet.getString("description"),
