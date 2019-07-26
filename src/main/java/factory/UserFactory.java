@@ -1,9 +1,10 @@
 package factory;
 
-import dao.UserDao;
-import dao.impl.UserDaoImpl;
+import dao.daoJDBC.UserDao;
+import dao.daoJDBC.impl.UserDaoImpl;
 
 public class UserFactory {
+
     private static UserDao instance;
 
     public static UserDao getInstance() {

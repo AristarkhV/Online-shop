@@ -1,7 +1,7 @@
 package controller.product;
 
-import dao.impl.ProductDaoImpl;
-import factory.ProductServiceFactory;
+import dao.daoJDBC.impl.ProductDaoImpl;
+import factory.service.ProductServiceFactory;
 import model.Product;
 import org.apache.log4j.Logger;
 import service.ProductService;
@@ -30,7 +30,7 @@ public class DeleteProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Long deleteProductId = Long.parseLong(request.getParameter("productId"));
+        Long deleteProductId = Long.parseLong(request.getParameter("productID"));
         Optional<Product> deleteProduct = productService.getProductById(deleteProductId);
         if (deleteProduct.isPresent()) {
             LOGGER.info("Try to delete  " + deleteProduct + " product ... \n");

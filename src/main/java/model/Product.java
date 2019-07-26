@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Product {
 
-    private Long productId;
+    private Long productID;
     private String name;
     private String description;
     private Double price;
@@ -13,7 +13,14 @@ public class Product {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.productId = IdCreator.idCreator();
+        this.productID = IdCreator.idCreator();
+    }
+
+    public Product(Long productID, String name, String description, Double price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.productID = productID;
     }
 
     public String getName() {
@@ -45,7 +52,7 @@ public class Product {
         if (this == o) return true;
         if (!(o instanceof Product)) return false;
         Product product = (Product) o;
-        return productId.equals(product.productId) &&
+        return productID.equals(product.productID) &&
                 name.equals(product.name) &&
                 Objects.equals(description, product.description) &&
                 price.equals(product.price);
@@ -53,14 +60,14 @@ public class Product {
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, name, description, price);
+        return Objects.hash(productID, name, description, price);
     }
 
-    public Long getProductId() {
-        return productId;
+    public Long getProductID() {
+        return productID;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setProductID(Long productID) {
+        this.productID = productID;
     }
 }

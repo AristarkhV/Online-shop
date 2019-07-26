@@ -1,9 +1,10 @@
 package factory;
 
-import dao.ProductDao;
-import dao.impl.ProductDaoImpl;
+import dao.daoJDBC.ProductDao;
+import dao.daoJDBC.impl.ProductDaoImpl;
 
 public class ProductFactory {
+
     private static ProductDao instance;
 
     public static ProductDao getInstance() {

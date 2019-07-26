@@ -1,6 +1,6 @@
 package controller.product;
 
-import factory.ProductServiceFactory;
+import factory.service.ProductServiceFactory;
 import service.ProductService;
 
 import javax.servlet.ServletException;
@@ -18,6 +18,7 @@ public class AllProductsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         request.setAttribute("products", productService.getAll());
         request.getRequestDispatcher("products.jsp").forward(request, response);
     }

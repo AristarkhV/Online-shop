@@ -1,9 +1,10 @@
-package factory;
+package factory.service;
 
 import service.UserService;
 import service.serviceImpl.UserServiceImpl;
 
 public class UserServiceFactory {
+
     private static UserService instance;
 
     public static UserService getInstance() {

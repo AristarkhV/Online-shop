@@ -16,6 +16,13 @@ public class User {
         this.userID = IdCreator.idCreator();
     }
 
+    public User(Long userID, String email, String password, Role role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.userID = userID;
+    }
+
     public Long getUserID() {
         return userID;
     }
