@@ -1,53 +1,37 @@
 package service.serviceImpl;
 
-import factory.service.MailServiceFactory;
-import factory.service.OrderServiceFactory;
-import model.Code;
-import model.Order;
+import dao.daoJDBC.CartDao;
+import factory.CartFactory;
+import model.Cart;
 import model.Product;
 import model.User;
 import service.CartService;
-import service.MailService;
-import service.OrderService;
-import util.RandomHelper;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 public class CartServiceImpl implements CartService {
 
-    private static ArrayList<Product> cartProducts = new ArrayList<>();
-    private static final MailService mailService = MailServiceFactory.getInstance();
-    private static final OrderService orderService = OrderServiceFactory.getInstance();
+    private static final CartDao cartDao = CartFactory.getInstance();
 
     @Override
-    public void addCartProduct(Product product) {
-        cartProducts.add(product);
+    public void addCart(Cart value) {
+        cartDao.addCart(value);
     }
 
     @Override
-    public Optional<ArrayList<Product>> getCartProducts() {
-        return cartProducts.size() == 0 ?
-                Optional.empty()
-                : Optional.of(cartProducts);
+    public Optional<Cart> getCart(User value) {
+        return cartDao.getCart(value);
     }
 
     @Override
-    public int cartSize() {
-        return cartProducts.size();
+    public void addProductToCart(Cart cart, Product product) {
+        cartDao.addProductToCart(cart, product);
     }
 
     @Override
-    public Code sendConfirmationCode(String email) {
-        String confirmationCode = RandomHelper.generateCode();
-        Code code = new Code(confirmationCode);
-        mailService.sendConfirmCode(code, email);
-        return code;
-    }
-
-    @Override
-    public void createNewOrder(User user, String deliveryAddress, ArrayList<Product> products) {
-        Order userOrder = new Order(user, deliveryAddress, products) ;
-        orderService.addOrder(userOrder);
+    public int cartSize(User value) {
+        return cartDao.getCart(value).isPresent()
+                ? cartDao.getCart(value).get().getProducts().size()
+                : 0;
     }
 }

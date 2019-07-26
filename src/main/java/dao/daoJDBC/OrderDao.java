@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface OrderDao {
 
-    void addOrder(Order value);
+    void addOrder(Order value, User user);
 
     Optional<Order> getUserOrder(User value);
 }
