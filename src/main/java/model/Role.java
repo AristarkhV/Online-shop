@@ -12,6 +12,11 @@ public class Role {
         this.roleID = IdCreator.idCreator();
     }
 
+    public Role(Long roleID, String role) {
+        this.role = role;
+        this.roleID = roleID;
+    }
+
     public String getRole() {
         return role;
     }

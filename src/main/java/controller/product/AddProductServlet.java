@@ -1,7 +1,7 @@
 package controller.product;
 
-import dao.impl.ProductDaoImpl;
-import factory.ProductServiceFactory;
+import dao.daoJDBC.impl.ProductDaoImpl;
+import factory.service.ProductServiceFactory;
 import model.Product;
 import org.apache.log4j.Logger;
 import service.ProductService;
@@ -23,7 +23,8 @@ public class AddProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("productId");
+
+        String id = request.getParameter("productID");
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         Double price = 0.0;
@@ -35,10 +36,13 @@ public class AddProductServlet extends HttpServlet {
             request.getRequestDispatcher("/addProduct.jsp").forward(request, response);
         } else {
             if (id != null &&!id.isEmpty()) {
-                Optional<Product> editProduct = productService.getProductById(currentID(id).get());
+                Optional<Product> editProduct = productService.getProductById(Long.parseLong(id));
                 if (editProduct.isPresent()) {
                     LOGGER.info("Try to edit  " + editProduct.get() + "... \n");
-                    productService.editProduct(editProduct.get(), name, price, description);
+                    editProduct.get().setName(name);
+                    editProduct.get().setPrice(price);
+                    editProduct.get().setDescription(description);
+                    productService.editProduct(editProduct.get());
                 } else {
                     LOGGER.info("Product not found  \n" + id);
                 }
@@ -58,13 +62,7 @@ public class AddProductServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("/addProduct.jsp");
-    }
 
-    private Optional<Long> currentID(String id) {
-        if (id == null) {
-            return Optional.empty();
-        }
-        return Optional.of(Long.parseLong(id));
+        response.sendRedirect("/addProduct.jsp");
     }
 }

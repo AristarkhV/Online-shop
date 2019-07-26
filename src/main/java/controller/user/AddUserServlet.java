@@ -1,7 +1,7 @@
 package controller.user;
 
-import dao.impl.UserDaoImpl;
-import factory.UserServiceFactory;
+import dao.daoJDBC.impl.UserDaoImpl;
+import factory.service.UserServiceFactory;
 import model.Role;
 import model.User;
 import org.apache.log4j.Logger;
@@ -24,7 +24,7 @@ public class AddUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("userId");
+        String id = request.getParameter("userID");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String repeatPassword = request.getParameter("rpassword");
@@ -47,7 +47,10 @@ public class AddUserServlet extends HttpServlet {
                         Optional<User> editUser = userService.getUserById(Long.parseLong(id));
                         if (editUser.isPresent()) {
                             LOGGER.info("Try to edit  " + editUser + " ... \n");
-                            userService.editUser(editUser.get(), email, password, role);
+                            editUser.get().setEmail(email);
+                            editUser.get().setPassword(password);
+                            editUser.get().setRole(role);
+                            userService.editUser(editUser.get());
                             request.setAttribute("users", userService.getAll());
                             request.getRequestDispatcher("/users.jsp").forward(request, response);
                             response.sendRedirect("/admin/users");

@@ -32,7 +32,7 @@
             <tr>
                 <td>${user.email}</td>
                 <td>${user.password}</td>
-                <td>${user.role.name}</td>
+                <td>${user.role.role}</td>
                 <td class="td-button">
                     <form action="/admin/edit/user" method="post">
                         <input type="hidden" name="userID" value="${user.userID}">

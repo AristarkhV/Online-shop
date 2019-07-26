@@ -1,9 +1,10 @@
-package factory;
+package factory.service;
 
 import service.ProductService;
 import service.serviceImpl.ProductServiceImpl;
 
 public class ProductServiceFactory {
+
     private static ProductService instance;
 
     public static ProductService getInstance() {

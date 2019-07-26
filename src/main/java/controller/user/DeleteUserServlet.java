@@ -1,7 +1,7 @@
 package controller.user;
 
-import dao.impl.UserDaoImpl;
-import factory.UserServiceFactory;
+import dao.daoJDBC.impl.UserDaoImpl;
+import factory.service.UserServiceFactory;
 import model.User;
 import org.apache.log4j.Logger;
 import service.UserService;
@@ -29,7 +29,7 @@ public class DeleteUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Long deleteUserId = Long.parseLong(request.getParameter("userId"));
+        Long deleteUserId = Long.parseLong(request.getParameter("userID"));
         Optional<User> deleteUser = userService.getUserById(deleteUserId);
         if (deleteUser.isPresent()) {
             LOGGER.info("Try to delete  " + deleteUser.get() + " user ... \n");
