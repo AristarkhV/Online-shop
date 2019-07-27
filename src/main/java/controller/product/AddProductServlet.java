@@ -51,12 +51,8 @@ public class AddProductServlet extends HttpServlet {
                 LOGGER.info("Try to add  " + product + "... \n");
                 productService.addProduct(product);
             }
-            request.setAttribute("done", "Done :)");
-            request.getRequestDispatcher("/addProduct.jsp").forward(request, response);
         }
-        request.setAttribute("products", productService.getAll());
-        request.getRequestDispatcher("/products.jsp").forward(request, response);
-        request.getRequestDispatcher("/addProduct.jsp").forward(request, response);
+        response.sendRedirect("/products");
     }
 
     @Override

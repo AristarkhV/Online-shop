@@ -31,7 +31,7 @@ public class EditUserServlet extends HttpServlet {
             request.getRequestDispatcher("/addUser.jsp").forward(request, response);
         } else {
             LOGGER.info("User is not found");
-            response.sendRedirect("/addUser.jsp");
+            response.sendRedirect("/addUser");
         }
     }
 }

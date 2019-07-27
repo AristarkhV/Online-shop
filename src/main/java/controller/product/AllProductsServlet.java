@@ -22,4 +22,12 @@ public class AllProductsServlet extends HttpServlet {
         request.setAttribute("products", productService.getAll());
         request.getRequestDispatcher("products.jsp").forward(request, response);
     }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        request.setAttribute("products", productService.getAll());
+        request.getRequestDispatcher("products.jsp").forward(request, response);
+    }
 }

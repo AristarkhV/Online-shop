@@ -35,11 +35,9 @@ public class DeleteUserServlet extends HttpServlet {
             LOGGER.info("Try to delete  " + deleteUser.get() + " user ... \n");
             userService.deleteUser(deleteUser.get());
             request.setAttribute("message", "Deleted");
-            request.setAttribute("users", userService.getAll());
-            request.getRequestDispatcher("/users.jsp").forward(request, response);
         } else {
             request.setAttribute("message", "Can't");
         }
-        response.sendRedirect("/users.jsp");
+        response.sendRedirect("/admin//users");
     }
 }

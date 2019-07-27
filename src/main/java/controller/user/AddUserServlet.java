@@ -1,10 +1,12 @@
 package controller.user;
 
 import dao.daoJDBC.impl.UserDaoImpl;
+import factory.service.RoleServiceFactory;
 import factory.service.UserServiceFactory;
 import model.Role;
 import model.User;
 import org.apache.log4j.Logger;
+import service.RoleService;
 import service.UserService;
 
 import javax.servlet.ServletException;
@@ -20,6 +22,7 @@ public class AddUserServlet extends HttpServlet {
 
     private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
     private UserService userService = UserServiceFactory.getInstance();
+    private RoleService roleService = RoleServiceFactory.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -28,7 +31,8 @@ public class AddUserServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String repeatPassword = request.getParameter("rpassword");
-        if (id == null && userService.getUserByEmail(email).isPresent()) {
+        String roleName = request.getParameter("role");
+        if (id.equals("") && userService.getUserByEmail(email).isPresent()) {
             request.setAttribute("error", "Already registered");
             request.getRequestDispatcher("/addUser.jsp").forward(request, response);
         } else {
@@ -42,8 +46,8 @@ public class AddUserServlet extends HttpServlet {
                 request.getRequestDispatcher("/addUser.jsp").forward(request, response);
             } else {
                 if (password.equals(repeatPassword)) {
-                    Role role = new Role(request.getParameter("role"));
-                    if (id != null && !id.isEmpty()) {
+                    Role role = roleService.getRoleByName(roleName).get();
+                    if (!id.isEmpty()) {
                         Optional<User> editUser = userService.getUserById(Long.parseLong(id));
                         if (editUser.isPresent()) {
                             LOGGER.info("Try to edit  " + editUser + " ... \n");
@@ -51,8 +55,6 @@ public class AddUserServlet extends HttpServlet {
                             editUser.get().setPassword(password);
                             editUser.get().setRole(role);
                             userService.editUser(editUser.get());
-                            request.setAttribute("users", userService.getAll());
-                            request.getRequestDispatcher("/users.jsp").forward(request, response);
                             response.sendRedirect("/admin/users");
                         } else {
                             LOGGER.info("User not found  \n" + id);
@@ -61,8 +63,6 @@ public class AddUserServlet extends HttpServlet {
                         User user = new User(email, password, role);
                         LOGGER.info("Try to add  " + user + " ... \n");
                         userService.addUser(user);
-                        request.setAttribute("users", userService.getAll());
-                        request.getRequestDispatcher("/users.jsp").forward(request, response);
                         response.sendRedirect("/admin/users");
                     }
                 } else {

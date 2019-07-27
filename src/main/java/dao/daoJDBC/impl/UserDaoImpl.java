@@ -72,9 +72,8 @@ public class UserDaoImpl implements UserDao {
     public void editUser(User value) {
 
         String sql = String.format("UPDATE user SET " +
-                                "email = '%s', password = '%s', idRole = '%s' WHERE idUser = %d;",
-                                 value.getEmail(), value.getPassword(), value.getRole().getRoleID(),
-                                 value.getUserID());
+                                "email = '%s', password = '%s', idRole = '%s' WHERE idUser = %d",
+                                 value.getEmail(), value.getPassword(), value.getRole().getRoleID(), value.getUserID());
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(sql);
