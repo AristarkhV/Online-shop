@@ -21,7 +21,7 @@ public class EditProductServlet extends HttpServlet {
     private ProductService productService = ProductServiceFactory.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String id = request.getParameter("productID");
@@ -34,7 +34,7 @@ public class EditProductServlet extends HttpServlet {
             request.getRequestDispatcher("/addProduct.jsp").forward(request, response);
         } else {
             LOGGER.info("Product is not found");
-            response.sendRedirect("/addProduct.jsp");
+            response.sendRedirect("/add/product");
         }
     }
 }
