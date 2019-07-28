@@ -1,6 +1,6 @@
 package controller.user;
 
-import dao.daoJDBC.impl.UserDaoImpl;
+import dao.impl.UserDaoImpl;
 import factory.service.UserServiceFactory;
 import model.User;
 import org.apache.log4j.Logger;

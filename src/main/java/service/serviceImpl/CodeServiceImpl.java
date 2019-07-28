@@ -1,6 +1,6 @@
 package service.serviceImpl;
 
-import dao.daoJDBC.CodeDao;
+import dao.CodeDao;
 import factory.CodeFactory;
 import model.Code;
 import service.CodeService;

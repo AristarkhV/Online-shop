@@ -1,6 +1,6 @@
 package service.serviceImpl;
 
-import dao.daoJDBC.CartDao;
+import dao.CartDao;
 import factory.CartFactory;
 import model.Cart;
 import model.Product;

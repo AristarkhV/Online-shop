@@ -1,7 +1,7 @@
 package factory;
 
-import dao.daoJDBC.RoleDao;
-import dao.daoJDBC.impl.RoleDaoImpl;
+import dao.RoleDao;
+import dao.impl.RoleDaoImpl;
 
 public class RoleFactory {
 

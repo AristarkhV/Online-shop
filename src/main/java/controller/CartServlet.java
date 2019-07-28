@@ -59,7 +59,7 @@ public class CartServlet extends HttpServlet {
                 String email = request.getParameter("email");
                 if (deliveryAddress.isEmpty() || email.isEmpty()) {
                     request.setAttribute("error", "Empty fields :(");
-                    request.setAttribute("flag", 1);
+                    request.setAttribute("check", 1);
                     request.setAttribute("order", cart.get().getProducts());
                     request.getRequestDispatcher("/cart.jsp").forward(request, response);
                 } else {

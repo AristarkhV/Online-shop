@@ -1,7 +1,7 @@
 package factory;
 
-import dao.daoJDBC.CartDao;
-import dao.daoJDBC.impl.CartDaoImpl;
+import dao.CartDao;
+import dao.impl.CartDaoImpl;
 
 public class CartFactory {
 

@@ -1,6 +1,6 @@
-package dao.daoJDBC.impl;
+package dao.impl;
 
-import dao.daoJDBC.OrderDao;
+import dao.OrderDao;
 import model.Order;
 import model.Product;
 import model.User;

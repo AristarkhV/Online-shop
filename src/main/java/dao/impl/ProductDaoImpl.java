@@ -1,6 +1,6 @@
-package dao.daoJDBC.impl;
+package dao.impl;
 
-import dao.daoJDBC.ProductDao;
+import dao.ProductDao;
 import model.Product;
 import org.apache.log4j.Logger;
 import util.DBConnection;

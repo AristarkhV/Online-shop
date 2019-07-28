@@ -1,6 +1,6 @@
 package service.serviceImpl;
 
-import dao.daoJDBC.ProductDao;
+import dao.ProductDao;
 import factory.ProductFactory;
 import model.Product;
 import service.ProductService;

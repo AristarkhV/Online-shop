@@ -1,7 +1,7 @@
 package factory;
 
-import dao.daoJDBC.OrderDao;
-import dao.daoJDBC.impl.OrderDaoImpl;
+import dao.OrderDao;
+import dao.impl.OrderDaoImpl;
 
 public class OrderFactory {
 

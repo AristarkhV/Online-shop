@@ -1,6 +1,6 @@
-package dao.daoJDBC.impl;
+package dao.impl;
 
-import dao.daoJDBC.CartDao;
+import dao.CartDao;
 import model.Cart;
 import model.Product;
 import model.User;

@@ -1,6 +1,6 @@
-package dao.daoJDBC.impl;
+package dao.impl;
 
-import dao.daoJDBC.UserDao;
+import dao.UserDao;
 import model.Role;
 import model.User;
 import org.apache.log4j.Logger;

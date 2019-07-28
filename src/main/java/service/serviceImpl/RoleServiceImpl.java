@@ -1,6 +1,6 @@
 package service.serviceImpl;
 
-import dao.daoJDBC.RoleDao;
+import dao.RoleDao;
 import factory.RoleFactory;
 import model.Role;
 import service.RoleService;

@@ -1,10 +1,9 @@
 package controller.user;
 
-import factory.service.ProductServiceFactory;
 import factory.service.UserServiceFactory;
 import model.User;
-import service.ProductService;
 import service.UserService;
+import util.HashUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,13 +18,12 @@ import java.util.Optional;
 public class UserSignInServlet extends HttpServlet {
 
     private UserService userService = UserServiceFactory.getInstance();
-    private ProductService productService = ProductServiceFactory.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String email = request.getParameter("email");
-        String password = request.getParameter("password");
+        String password = HashUtil.getSHA256SecurePassword(request.getParameter("password"));
         Optional<User> currentUser = userService.getUserByEmail(email);
         if (password.isEmpty()) {
             if (!email.isEmpty()) {
@@ -38,9 +36,7 @@ public class UserSignInServlet extends HttpServlet {
             }
         } else {
             if (currentUser.isPresent()) {
-                String userPassword = currentUser
-                        .get()
-                        .getPassword();
+                String userPassword = currentUser.get().getPassword();
                 if (userPassword.equals(password)) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", currentUser.get());

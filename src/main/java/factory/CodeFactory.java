@@ -1,7 +1,7 @@
 package factory;
 
-import dao.daoJDBC.CodeDao;
-import dao.daoJDBC.impl.CodeDaoImpl;
+import dao.CodeDao;
+import dao.impl.CodeDaoImpl;
 
 public class CodeFactory {
 

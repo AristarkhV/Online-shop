@@ -1,6 +1,6 @@
 package controller.user;
 
-import dao.daoJDBC.impl.UserDaoImpl;
+import dao.impl.UserDaoImpl;
 import factory.service.RoleServiceFactory;
 import factory.service.UserServiceFactory;
 import model.Role;
@@ -8,6 +8,7 @@ import model.User;
 import org.apache.log4j.Logger;
 import service.RoleService;
 import service.UserService;
+import util.HashUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,8 +30,8 @@ public class AddUserServlet extends HttpServlet {
             throws ServletException, IOException {
         String id = request.getParameter("userID");
         String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String repeatPassword = request.getParameter("rpassword");
+        String password = HashUtil.getSHA256SecurePassword (request.getParameter("password"));
+        String repeatPassword = HashUtil.getSHA256SecurePassword(request.getParameter("rpassword"));
         String roleName = request.getParameter("role");
         if (id.equals("") && userService.getUserByEmail(email).isPresent()) {
             request.setAttribute("error", "Already registered");

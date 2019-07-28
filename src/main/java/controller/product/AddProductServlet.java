@@ -1,6 +1,6 @@
 package controller.product;
 
-import dao.daoJDBC.impl.ProductDaoImpl;
+import dao.impl.ProductDaoImpl;
 import factory.service.ProductServiceFactory;
 import model.Product;
 import org.apache.log4j.Logger;

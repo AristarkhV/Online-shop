@@ -1,8 +1,7 @@
 package service.serviceImpl;
 
-import dao.daoJDBC.UserDao;
+import dao.UserDao;
 import factory.UserFactory;
-import model.Role;
 import model.User;
 import service.UserService;
 

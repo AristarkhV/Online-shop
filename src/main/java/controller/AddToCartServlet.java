@@ -1,6 +1,6 @@
 package controller;
 
-import dao.daoJDBC.impl.ProductDaoImpl;
+import dao.impl.ProductDaoImpl;
 import factory.service.CartServiceFactory;
 import factory.service.ProductServiceFactory;
 import model.Cart;

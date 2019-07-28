@@ -1,7 +1,7 @@
 package service.serviceImpl;
 
-import dao.daoJDBC.CodeDao;
-import dao.daoJDBC.OrderDao;
+import dao.CodeDao;
+import dao.OrderDao;
 import factory.CodeFactory;
 import factory.OrderFactory;
 import factory.service.MailServiceFactory;

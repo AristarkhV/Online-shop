@@ -1,4 +1,4 @@
-package dao.daoJDBC;
+package dao;
 
 import model.Role;
 
