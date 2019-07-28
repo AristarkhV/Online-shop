@@ -71,9 +71,10 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void editUser(User value) {
 
-        String sql = String.format("UPDATE user SET " +
-                                "email = '%s', password = '%s', idRole = '%s' WHERE idUser = %d",
-                                 value.getEmail(), value.getPassword(), value.getRole().getRoleID(), value.getUserID());
+        String sql = String.format("UPDATE user SET email = '%s', password = '%s', idRole = '%s' " +
+                                   "WHERE idUser = %d",
+                                    value.getEmail(), value.getPassword(), value.getRole().getRoleID(),
+                                    value.getUserID());
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(sql);
@@ -87,8 +88,8 @@ public class UserDaoImpl implements UserDao {
     public Optional<User> getUserByEmail(String email) {
 
         Optional<User> user = Optional.empty();
-        String sql = "SELECT * FROM user INNER JOIN role on role.idRole = user.idRole "
-                   + "WHERE user.email = '" + email + "'";
+        String sql = "SELECT * FROM user INNER JOIN role on role.idRole = user.idRole " +
+                     "WHERE user.email = '" + email + "'";
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {

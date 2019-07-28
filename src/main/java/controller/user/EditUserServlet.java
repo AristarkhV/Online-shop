@@ -24,7 +24,7 @@ public class EditUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("userID");
-        if (id != null) {
+        if (!id.isEmpty()) {
             Optional<User> editUser = userService.getUserById(Long.parseLong(id));
             request.setAttribute("email", editUser.get().getEmail());
             request.setAttribute("userID", editUser.get().getUserID());

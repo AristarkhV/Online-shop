@@ -19,15 +19,6 @@ public class InitialServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-//        User user = new User("user@u.u", "111", new Role("user"));
-//        userService.addUser(user);
-//        User admin = new User("admin@a.a", "111", new Role("admin"));
-//        userService.addUser(admin);
-//
-//        for(int i = 0; i < 50; i++){
-//            productService.addProduct(new Product("name" + i,
-//                    "description",
-//                    (double) i));
-//        }
+
     }
 }

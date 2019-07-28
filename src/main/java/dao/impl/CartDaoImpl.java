@@ -77,7 +77,7 @@ public class CartDaoImpl implements CartDao {
     public void addProductToCart(Cart cart, Product product) {
 
         String sql = String.format("INSERT INTO product_cart (idCart, idProduct) VALUES('%s', '%s')",
-                                     cart.getCartID(), product.getProductID());
+                                    cart.getCartID(), product.getProductID());
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(sql);

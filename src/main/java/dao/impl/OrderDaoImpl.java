@@ -23,9 +23,9 @@ public class OrderDaoImpl implements OrderDao {
     public void addOrder(Order value, User user) {
 
         String sqlOrder = String.format("INSERT INTO user_order(idUser, email, delivery_address) " +
-                                           "VALUES('%s', '%s', '%s')",
-                                            value.getUser().getUserID(), value.getEmail(),
-                                            value.getDeliveryAddress());
+                                         "VALUES('%s', '%s', '%s')", value.getUser().getUserID(),
+                                                                     value.getEmail(),
+                                                                     value.getDeliveryAddress());
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(sqlOrder);
@@ -34,8 +34,8 @@ public class OrderDaoImpl implements OrderDao {
             LOGGER.error("SQl exception " + e.getMessage());
         }
         Long orderID;
-                String sqlOrderID = String.format("SELECT idOrder FROM user_order WHERE idUser = " +
-                                                                                  user.getUserID()+
+                String sqlOrderID = String.format("SELECT idOrder FROM user_order " +
+                                                  "WHERE idUser = " + user.getUserID()+
                                                  " ORDER BY idOrder DESC LIMIT 1");
         try (Connection Connection = DBConnection.getConnection();
              Statement statement = Connection.createStatement();
@@ -72,9 +72,9 @@ public class OrderDaoImpl implements OrderDao {
         String sql = "SELECT user_order.idOrder, user_order.email, user_order.delivery_address, " +
                             "product.idProduct, name, price, description " +
                      "FROM user_order " +
-                          "INNER JOIN order_product on order_product.idOrder = user_order.idOrder " +
-                          "INNER JOIN product on product.idProduct = order_product.idProduct " +
-                          "WHERE user_order.idUser = " + value.getUserID() +
+                     "INNER JOIN order_product on order_product.idOrder = user_order.idOrder " +
+                     "INNER JOIN product on product.idProduct = order_product.idProduct " +
+                     "WHERE user_order.idUser = " + value.getUserID() +
                      " ORDER BY user_order.idOrder DESC LIMIT 1";
         try (Connection Connection = DBConnection.getConnection();
              Statement statement = Connection.createStatement();

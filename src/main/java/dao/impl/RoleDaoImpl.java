@@ -25,7 +25,8 @@ public class RoleDaoImpl implements RoleDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             Optional<Role> role = Optional.empty();
             while (resultSet.next()) {
-                role = Optional.of(new Role(resultSet.getLong("idRole"), resultSet.getString("name")));
+                role = Optional.of(new Role(resultSet.getLong("idRole"),
+                                            resultSet.getString("name")));
             }
             return role;
         } catch (SQLException e) {
