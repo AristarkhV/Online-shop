@@ -42,12 +42,12 @@ public class CartDaoImpl implements CartDao {
                      "INNER JOIN product_cart ON product_cart.idCart = cart.idCart " +
                      "INNER JOIN product ON product.idProduct = product_cart.idProduct " +
                      "WHERE cart.idUser = '" + value.getUserID() + "'";
-            try (Connection connection = DBConnection.getConnection();
-                 Statement statement = connection.createStatement();
-                 ResultSet resultSet = statement.executeQuery(sql)) {
-                while (resultSet.next()) {
-                    orderID = resultSet.getLong("idCart");
-                    Product product = new Product(resultSet.getLong("idProduct"),
+        try (Connection connection = DBConnection.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            while (resultSet.next()) {
+                orderID = resultSet.getLong("idCart");
+                Product product = new Product(resultSet.getLong("idProduct"),
                                                   resultSet.getString("name"),
                                                   resultSet.getString("description"),
                                                   resultSet.getDouble("price"));
@@ -57,10 +57,10 @@ public class CartDaoImpl implements CartDao {
                 if (cart.isPresent()) {
                     cart.get().setProducts(products);
                 }
-            } catch (SQLException e) {
-                logger.error("SQl exception " + e);
-                return Optional.empty();
-            }
+        } catch (SQLException e) {
+            logger.error("SQl exception " + e);
+            return Optional.empty();
+        }
         return cart;
     }
 

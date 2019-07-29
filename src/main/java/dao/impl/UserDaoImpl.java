@@ -93,7 +93,7 @@ public class UserDaoImpl implements UserDao {
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 user = Optional.of(
                     new User(resultSet.getLong("idUser"),
                              resultSet.getString("email"),

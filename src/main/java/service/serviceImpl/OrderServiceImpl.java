@@ -34,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void createOrder(User user, String email, String deliveryAddress, ArrayList<Product> products) {
         Order userOrder = new Order(user, email, deliveryAddress, products) ;
-        orderDao.addOrder(userOrder, user);
+        orderDao.addOrder(userOrder);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void addOrder(Order value, User user) {
-        orderDao.addOrder(value, user);
+    public void addOrder(Order value) {
+        orderDao.addOrder(value);
     }
 }
