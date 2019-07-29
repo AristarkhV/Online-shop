@@ -37,39 +37,30 @@ public class CartDaoImpl implements CartDao {
 
         Optional<Cart> cart = Optional.empty();
         ArrayList<Product> products = new ArrayList<>();
-        String sql = "SELECT idUser, cart.idCart FROM cart " +
+        String sql = "SELECT cart.idCart, product.idProduct, name, price, description FROM cart " +
+                     "INNER JOIN product_cart ON product_cart.idCart = cart.idCart " +
+                     "INNER JOIN product ON product.idProduct = product_cart.idProduct " +
                      "WHERE cart.idUser = '" + value.getUserID() + "'";
-        try (Connection connection = DBConnection.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-            if (resultSet.next()) {
-                cart = Optional.of(new Cart(resultSet.getLong("idCart"), products, value));
-            }
-            sql = "SELECT product.idProduct, name, price, description FROM cart " +
-                    "INNER JOIN product_cart ON product_cart.idCart = cart.idCart " +
-                    "INNER JOIN product ON product.idProduct = product_cart.idProduct " +
-                    "WHERE cart.idUser = '" + value.getUserID() + "'";
-            try (Connection nextConnection = DBConnection.getConnection();
-                 Statement nextStatement = nextConnection.createStatement();
-                 ResultSet nextResultSet = nextStatement.executeQuery(sql)) {
-                while (nextResultSet.next()) {
-                    Product product = new Product(nextResultSet.getLong("idProduct"),
-                                                  nextResultSet.getString("name"),
-                                                  nextResultSet.getString("description"),
-                                                  nextResultSet.getDouble("price"));
+            try (Connection connection = DBConnection.getConnection();
+                 Statement statement = connection.createStatement();
+                 ResultSet resultSet = statement.executeQuery(sql)) {
+                while (resultSet.next()) {
+                    cart = Optional.of(new Cart(resultSet.getLong("idCart"),
+                                                products,
+                                                value));
+                    Product product = new Product(resultSet.getLong("idProduct"),
+                                                  resultSet.getString("name"),
+                                                  resultSet.getString("description"),
+                                                  resultSet.getDouble("price"));
                     products.add(product);
                 }
-                if(cart.isPresent()) {
+                if (cart.isPresent()) {
                     cart.get().setProducts(products);
                 }
             } catch (SQLException e) {
                 logger.error("SQl exception " + e);
                 return Optional.empty();
             }
-        }catch (SQLException e) {
-            logger.error("SQl exception " + e);
-            return Optional.empty();
-        }
         return cart;
     }
 
