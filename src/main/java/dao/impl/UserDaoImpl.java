@@ -35,7 +35,7 @@ public class UserDaoImpl implements UserDao {
                                                resultSet.getString("name"))));
             }
         } catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
             return null;
         }
         return userList;
@@ -51,7 +51,7 @@ public class UserDaoImpl implements UserDao {
             statement.execute(sql);
             logger.info(value + " added to db");
         } catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
         }
     }
 
@@ -64,7 +64,7 @@ public class UserDaoImpl implements UserDao {
             statement.execute(sql);
             logger.info(value + " deleted from db");
         } catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
         }
     }
 
@@ -80,7 +80,7 @@ public class UserDaoImpl implements UserDao {
             statement.execute(sql);
             logger.info(value + " updated");
         } catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
         }
     }
 
@@ -102,7 +102,7 @@ public class UserDaoImpl implements UserDao {
                                       resultSet.getString("name"))));
             }
         } catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
             return Optional.empty();
         }
         return user;
@@ -126,7 +126,7 @@ public class UserDaoImpl implements UserDao {
                                           resultSet.getString("name"))));
             }
         } catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
             return Optional.empty();
         }
         return user;

@@ -32,7 +32,7 @@ public class AddUserServlet extends HttpServlet {
         String password = request.getParameter("password");
         String repeatPassword = request.getParameter("rpassword");
         String roleName = request.getParameter("role");
-        if (id.equals("") && userService.getUserByEmail(email).isPresent()) {
+        if (id.isEmpty() && userService.getUserByEmail(email).isPresent()) {
             request.setAttribute("error", "Already registered");
             request.getRequestDispatcher("/addUser.jsp").forward(request, response);
         } else {

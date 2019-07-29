@@ -25,7 +25,7 @@ public class CodeDaoImpl implements CodeDao {
             statement.execute(sql);
             logger.info(value + " added to db");
         } catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
         }
     }
 
@@ -44,7 +44,7 @@ public class CodeDaoImpl implements CodeDao {
                                  resultSet.getLong("idOrder"), resultSet.getString("email")));
             }
         } catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
             return Optional.empty();
         }
         return code;

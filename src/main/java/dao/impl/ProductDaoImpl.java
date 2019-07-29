@@ -32,7 +32,7 @@ public class ProductDaoImpl implements ProductDao {
                                              resultSet.getDouble("price")));
             }
         } catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
             return null;
         }
         return productsList;
@@ -49,7 +49,7 @@ public class ProductDaoImpl implements ProductDao {
             statement.execute(sql);
             logger.info(value + " added to db");
         } catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
         }
     }
 
@@ -62,7 +62,7 @@ public class ProductDaoImpl implements ProductDao {
             statement.execute(sql);
             logger.info(value + " deleted from db");
         } catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
         }
     }
 
@@ -78,7 +78,7 @@ public class ProductDaoImpl implements ProductDao {
             statement.execute(sql);
             logger.info(value + " updated");
         } catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
         }
     }
 
@@ -97,7 +97,7 @@ public class ProductDaoImpl implements ProductDao {
                                     resultSet.getDouble("price")));
             }
         } catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
             return Optional.empty();
         }
         return product;

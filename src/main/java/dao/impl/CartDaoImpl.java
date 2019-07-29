@@ -28,7 +28,7 @@ public class CartDaoImpl implements CartDao {
             statement.execute(sql);
             logger.info(value + " added to db");
         } catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
         }
     }
 
@@ -63,11 +63,11 @@ public class CartDaoImpl implements CartDao {
                     cart.get().setProducts(products);
                 }
             } catch (SQLException e) {
-                logger.error("SQl exception " + e.getMessage());
+                logger.error("SQl exception " + e);
                 return Optional.empty();
             }
         }catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
             return Optional.empty();
         }
         return cart;
@@ -83,7 +83,7 @@ public class CartDaoImpl implements CartDao {
             statement.execute(sql);
             logger.info(product + " added to product_count table");
         } catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
         }
     }
 }

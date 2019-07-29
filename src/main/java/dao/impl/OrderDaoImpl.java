@@ -31,7 +31,7 @@ public class OrderDaoImpl implements OrderDao {
             statement.execute(sqlOrder);
             logger.info(value + " added to db");
         } catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
         }
         Long orderID;
                 String sqlOrderID = String.format("SELECT idOrder FROM user_order " +
@@ -53,14 +53,14 @@ public class OrderDaoImpl implements OrderDao {
                         productStatement.execute(sql);
                         logger.info(products.get(i) + " added to order_product table");
                     } catch (SQLException e) {
-                        logger.error("SQl exception " + e.getMessage());
+                        logger.error("SQl exception " + e);
                     }
                     i++;
                 }
             }
             logger.info(value + " added to db");
         } catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
         }
     }
 
@@ -94,7 +94,7 @@ public class OrderDaoImpl implements OrderDao {
             order.get().setOrderProducts(products);
             return order;
         } catch (SQLException e) {
-            logger.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e);
             return Optional.empty();
         }
     }
