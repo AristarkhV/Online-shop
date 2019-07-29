@@ -17,7 +17,7 @@ import java.util.Optional;
 @WebServlet(value = "/add/product")
 public class AddProductServlet extends HttpServlet {
 
-    private static final Logger LOGGER = Logger.getLogger(ProductDaoImpl.class);
+    private static final Logger logger = Logger.getLogger(ProductDaoImpl.class);
     private ProductService productService = ProductServiceFactory.getInstance();
 
     @Override
@@ -38,17 +38,17 @@ public class AddProductServlet extends HttpServlet {
             if (id != null &&!id.isEmpty()) {
                 Optional<Product> editProduct = productService.getProductById(Long.parseLong(id));
                 if (editProduct.isPresent()) {
-                    LOGGER.info("Try to edit  " + editProduct.get() + "... \n");
+                    logger.info("Try to edit  " + editProduct.get() + "... \n");
                     editProduct.get().setName(name);
                     editProduct.get().setPrice(price);
                     editProduct.get().setDescription(description);
                     productService.editProduct(editProduct.get());
                 } else {
-                    LOGGER.info("Product not found  \n" + id);
+                    logger.info("Product not found  \n" + id);
                 }
             } else {
                 Product product = new Product(name, description, price);
-                LOGGER.info("Try to add  " + product + "... \n");
+                logger.info("Try to add  " + product + "... \n");
                 productService.addProduct(product);
             }
         }

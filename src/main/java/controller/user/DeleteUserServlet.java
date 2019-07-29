@@ -17,7 +17,7 @@ import java.util.Optional;
 @WebServlet(value = "/delete/user")
 public class DeleteUserServlet extends HttpServlet {
 
-    private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
+    private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
     private UserService userService = UserServiceFactory.getInstance();
 
     @Override
@@ -32,7 +32,7 @@ public class DeleteUserServlet extends HttpServlet {
         Long deleteUserId = Long.parseLong(request.getParameter("userID"));
         Optional<User> deleteUser = userService.getUserById(deleteUserId);
         if (deleteUser.isPresent()) {
-            LOGGER.info("Try to delete  " + deleteUser.get() + " user ... \n");
+            logger.info("Try to delete  " + deleteUser.get() + " user ... \n");
             userService.deleteUser(deleteUser.get());
             request.setAttribute("message", "Deleted");
         } else {

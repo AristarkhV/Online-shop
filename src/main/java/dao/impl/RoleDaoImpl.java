@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class RoleDaoImpl implements RoleDao {
 
-    private static final Logger LOGGER = Logger.getLogger(RoleDaoImpl.class);
+    private static final Logger logger = Logger.getLogger(RoleDaoImpl.class);
     private static final String GET_ROLE_BY_NAME = "SELECT * FROM role WHERE name = ?";
 
     @Override
@@ -30,7 +30,7 @@ public class RoleDaoImpl implements RoleDao {
             }
             return role;
         } catch (SQLException e) {
-            LOGGER.error("Getting role by name", e);
+            logger.error("Getting role by name", e);
         }
         return Optional.empty();
     }

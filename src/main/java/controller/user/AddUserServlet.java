@@ -20,7 +20,7 @@ import java.util.Optional;
 @WebServlet("/admin/add/user")
 public class AddUserServlet extends HttpServlet {
 
-    private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
+    private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
     private UserService userService = UserServiceFactory.getInstance();
     private RoleService roleService = RoleServiceFactory.getInstance();
 
@@ -50,18 +50,18 @@ public class AddUserServlet extends HttpServlet {
                     if (!id.isEmpty()) {
                         Optional<User> editUser = userService.getUserById(Long.parseLong(id));
                         if (editUser.isPresent()) {
-                            LOGGER.info("Try to edit  " + editUser + " ... \n");
+                            logger.info("Try to edit  " + editUser + " ... \n");
                             editUser.get().setEmail(email);
                             editUser.get().setPassword(password);
                             editUser.get().setRole(role);
                             userService.editUser(editUser.get());
                             response.sendRedirect("/admin/users");
                         } else {
-                            LOGGER.info("User not found  \n" + id);
+                            logger.info("User not found  \n" + id);
                         }
                     } else {
                         User user = new User(email, password, role);
-                        LOGGER.info("Try to add  " + user + " ... \n");
+                        logger.info("Try to add  " + user + " ... \n");
                         userService.addUser(user);
                         response.sendRedirect("/admin/users");
                     }

@@ -17,7 +17,7 @@ import java.util.Optional;
 @WebServlet("/edit/product")
 public class EditProductServlet extends HttpServlet {
 
-    private static final org.apache.log4j.Logger LOGGER = Logger.getLogger(ProductDaoImpl.class);
+    private static final org.apache.log4j.Logger logger = Logger.getLogger(ProductDaoImpl.class);
     private ProductService productService = ProductServiceFactory.getInstance();
 
     @Override
@@ -33,7 +33,7 @@ public class EditProductServlet extends HttpServlet {
             request.setAttribute("productID", editProduct.get().getProductID());
             request.getRequestDispatcher("/addProduct.jsp").forward(request, response);
         } else {
-            LOGGER.info("Product is not found");
+            logger.info("Product is not found");
             response.sendRedirect("/add/product");
         }
     }

@@ -16,7 +16,7 @@ import java.util.Optional;
 
 public class CartDaoImpl implements CartDao {
 
-    private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
+    private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
 
     @Override
     public void addCart(Cart value) {
@@ -26,9 +26,9 @@ public class CartDaoImpl implements CartDao {
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(sql);
-            LOGGER.info(value + " added to db");
+            logger.info(value + " added to db");
         } catch (SQLException e) {
-            LOGGER.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e.getMessage());
         }
     }
 
@@ -63,11 +63,11 @@ public class CartDaoImpl implements CartDao {
                     cart.get().setProducts(products);
                 }
             } catch (SQLException e) {
-                LOGGER.error("SQl exception " + e.getMessage());
+                logger.error("SQl exception " + e.getMessage());
                 return Optional.empty();
             }
         }catch (SQLException e) {
-            LOGGER.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e.getMessage());
             return Optional.empty();
         }
         return cart;
@@ -81,9 +81,9 @@ public class CartDaoImpl implements CartDao {
         try (Connection connection = DBConnection.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(sql);
-            LOGGER.info(product + " added to product_count table");
+            logger.info(product + " added to product_count table");
         } catch (SQLException e) {
-            LOGGER.error("SQl exception " + e.getMessage());
+            logger.error("SQl exception " + e.getMessage());
         }
     }
 }
