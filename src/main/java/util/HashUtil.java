@@ -11,6 +11,7 @@ public class HashUtil {
     private static final Logger logger = Logger.getLogger (HashUtil.class);
 
     public static String getSHA256SecurePassword(String passwordToHash) {
+
         MessageDigest digest = null;
         try {
             digest = MessageDigest.getInstance ("SHA-256");
