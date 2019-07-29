@@ -37,6 +37,7 @@ public class CartDaoImpl implements CartDao {
 
         Optional<Cart> cart = Optional.empty();
         ArrayList<Product> products = new ArrayList<>();
+        Long orderID = null;
         String sql = "SELECT cart.idCart, product.idProduct, name, price, description FROM cart " +
                      "INNER JOIN product_cart ON product_cart.idCart = cart.idCart " +
                      "INNER JOIN product ON product.idProduct = product_cart.idProduct " +
@@ -45,15 +46,14 @@ public class CartDaoImpl implements CartDao {
                  Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(sql)) {
                 while (resultSet.next()) {
-                    cart = Optional.of(new Cart(resultSet.getLong("idCart"),
-                                                products,
-                                                value));
+                    orderID = resultSet.getLong("idCart");
                     Product product = new Product(resultSet.getLong("idProduct"),
                                                   resultSet.getString("name"),
                                                   resultSet.getString("description"),
                                                   resultSet.getDouble("price"));
                     products.add(product);
                 }
+                cart = Optional.of(new Cart(orderID, products, value));
                 if (cart.isPresent()) {
                     cart.get().setProducts(products);
                 }
