@@ -3,7 +3,6 @@ package controller.user;
 import factory.service.UserServiceFactory;
 import model.User;
 import service.UserService;
-import util.HashUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +22,7 @@ public class UserSignInServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String email = request.getParameter("email");
-        String password = HashUtil.getSHA256SecurePassword(request.getParameter("password"));
+        String password = request.getParameter("password");
         Optional<User> currentUser = userService.getUserByEmail(email);
         if (password.isEmpty()) {
             if (!email.isEmpty()) {
