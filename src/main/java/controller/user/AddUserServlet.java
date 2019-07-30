@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet("/admin/add/user")
+@WebServlet("/add/user")
 public class AddUserServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(UserDaoImpl.class);

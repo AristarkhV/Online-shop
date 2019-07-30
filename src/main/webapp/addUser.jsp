@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<form action="/admin/add/user" method="post" class="decor">
+<form action="/add/user" method="post" class="decor">
     <div class="form-left-decoration"></div>
     <div class="form-right-decoration"></div>
     <div class="circle"></div>

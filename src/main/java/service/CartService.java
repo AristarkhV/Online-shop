@@ -16,4 +16,6 @@ public interface CartService {
     void addProductToCart(Cart cart, Product product);
 
     int cartSize(User value);
+
+    void cleanCart(Cart cart);
 }

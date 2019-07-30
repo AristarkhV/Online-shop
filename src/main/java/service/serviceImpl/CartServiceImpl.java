@@ -34,4 +34,10 @@ public class CartServiceImpl implements CartService {
                 ? cartDao.getCart(value).get().getProducts().size()
                 : 0;
     }
+
+    @Override
+    public void cleanCart(Cart value) {
+        cartDao.cleanCart(value);
+    }
+
 }

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet(value = "/add/product")
+@WebServlet(value = "/admin/add/product")
 public class AddProductServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(ProductDaoImpl.class);

@@ -13,4 +13,6 @@ public interface CartDao {
     Optional<Cart> getCart(User value);
 
     void addProductToCart(Cart cart, Product product);
+
+    void cleanCart(Cart cart);
 }
