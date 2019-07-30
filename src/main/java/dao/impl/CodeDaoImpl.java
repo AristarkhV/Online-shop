@@ -3,12 +3,11 @@ package dao.impl;
 import dao.CodeDao;
 import model.Code;
 import org.apache.log4j.Logger;
-import util.DBConnection;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import util.HibernateUtil;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Objects;
 import java.util.Optional;
 
 public class CodeDaoImpl implements CodeDao {
@@ -17,36 +16,34 @@ public class CodeDaoImpl implements CodeDao {
 
     @Override
     public void addCode(Code value) {
-
-        String sql = String.format("INSERT INTO code(value, email, idOrder) VALUES('%s', '%s', '%s')",
-                                    value.getCode(), value.getEmail(), value.getOrderID());
-        try (Connection connection = DBConnection.getConnection();
-             Statement statement = connection.createStatement()) {
-            statement.execute(sql);
-            logger.info(value + " added to db");
-        } catch (SQLException e) {
-            logger.error("SQl exception " + e);
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.save(value);
+            transaction.commit();
+            logger.info("Added to db: " + value.toString());
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error("Add code to db: ", e);
         }
     }
 
     @Override
     public Optional<Code> getCode(String email) {
-
-        Optional<Code> code = Optional.empty();
-        try (Connection connection = DBConnection.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(
-                     "SELECT * FROM code INNER JOIN user_order " +
-                          "WHERE code.email = '" + email + "' ORDER BY idCode DESC LIMIT 1")) {
-            if (resultSet.next()) {
-                code = Optional.of(
-                        new Code(resultSet.getLong("idCode"), resultSet.getString("value"),
-                                 resultSet.getLong("idOrder"), resultSet.getString("email")));
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Code code = session.byNaturalId(Code.class)
+                    .using("email", email)
+                    .getReference();
+            if (Objects.isNull(code)) {
+                return Optional.empty();
+            } else {
+                return Optional.of(code);
             }
-        } catch (SQLException e) {
-            logger.error("SQl exception " + e);
-            return Optional.empty();
+        } catch (Exception e) {
+            logger.error("Get code : ", e);
         }
-        return code;
+        return Optional.empty();
     }
 }

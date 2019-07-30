@@ -3,103 +3,92 @@ package dao.impl;
 import dao.ProductDao;
 import model.Product;
 import org.apache.log4j.Logger;
-import util.DBConnection;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import util.HibernateUtil;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ProductDaoImpl implements ProductDao {
 
-    private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
+    private static final Logger logger = Logger.getLogger(ProductDaoImpl.class);
 
     @Override
-    public List<Product> getAll() {
-
-        List<Product> productsList = new ArrayList<>();
-
-        try (Connection connection = DBConnection.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM product ")) {
-            while (resultSet.next()) {
-                productsList.add(new Product(resultSet.getLong("idProduct"),
-                                             resultSet.getString("name"),
-                                             resultSet.getString("description"),
-                                             resultSet.getDouble("price")));
+    public void addProduct(Product product) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.save(product);
+            transaction.commit();
+            logger.info("Add to db: " + product);
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
             }
-        } catch (SQLException e) {
-            logger.error("SQl exception " + e);
-            return null;
-        }
-        return productsList;
-    }
-
-    @Override
-    public void addProduct(Product value) {
-
-        String sql = String.format("INSERT INTO product(name, description, price) " +
-                                   "VALUES('%s', '%s', '%s')",
-                                    value.getName(), value.getDescription(), value.getPrice());
-        try (Connection connection = DBConnection.getConnection();
-             Statement statement = connection.createStatement()) {
-            statement.execute(sql);
-            logger.info(value + " added to db");
-        } catch (SQLException e) {
-            logger.error("SQl exception " + e);
+            logger.error("Add product to db: ", e);
         }
     }
 
     @Override
     public void deleteProduct(Product value) {
-
-        String sql = "DELETE FROM product WHERE idProduct = '" + value.getProductID() + "'";
-        try (Connection connection = DBConnection.getConnection();
-             Statement statement = connection.createStatement()) {
-            statement.execute(sql);
-            logger.info(value + " deleted from db");
-        } catch (SQLException e) {
-            logger.error("SQl exception " + e);
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            if (getProductById(value.getProductID()).isPresent()) {
+                session.delete(getProductById(value.getProductID()).get());
+            }
+            transaction.commit();
+            logger.info("Deleted from db: " + getProductById(value.getProductID()));
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error("Delete product from db: ", e);
         }
     }
 
     @Override
     public void editProduct(Product value) {
-
-        String sql = String.format("UPDATE product SET name = '%s', description = '%s', price = '%s' " +
-                                   "WHERE idProduct = %d;",
-                                    value.getName(), value.getDescription(),
-                                    value.getPrice(), value.getProductID());
-        try (Connection connection = DBConnection.getConnection();
-             Statement statement = connection.createStatement()) {
-            statement.execute(sql);
-            logger.info(value + " updated");
-        } catch (SQLException e) {
-            logger.error("SQl exception " + e);
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.update("product", value);
+            transaction.commit();
+            logger.info("Edit: " + value.getProductID());
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error("Edit product: ", e);
         }
     }
 
     @Override
-    public Optional<Product> getProductById(Long id) {
+    public List<Product> getAll() {
+        //TODO: getAll()
+//        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+//            return session.createQuery("FROM Product", Product.class).list();
+//        } catch (Exception e) {
+//            logger.error("Get all products from db: ", e);
+//        }
+        return Collections.emptyList();
+    }
 
-        Optional<Product> product = Optional.empty();
-        try (Connection connection = DBConnection.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(
-                     "SELECT * FROM product WHERE product.idProduct = " + id)) {
-            if (resultSet.next()) {
-                product = Optional.of(
-                        new Product(resultSet.getLong("idProduct"), resultSet.getString("name"),
-                                    resultSet.getString("description"),
-                                    resultSet.getDouble("price")));
+    @Override
+    public Optional<Product> getProductById(Long id) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Product product = session.get(Product.class, id);
+            if (Objects.isNull(product)) {
+                return Optional.empty();
+            } else {
+                return Optional.of(product);
             }
-        } catch (SQLException e) {
-            logger.error("SQl exception " + e);
-            return Optional.empty();
+        } catch (Exception e) {
+            logger.error("Get product by ID: ", e);
         }
-        return product;
+        return Optional.empty();
     }
 }

@@ -23,9 +23,9 @@ public class OrderServiceImpl implements OrderService {
     private static final MailService mailService = MailServiceFactory.getInstance();
 
     @Override
-    public Code sendConfirmationCode(String email, Long orderID) {
+    public Code sendConfirmationCode(String email, Order order) {
         String confirmationCode = RandomHelper.generateCode();
-        Code code = new Code(confirmationCode, orderID, email);
+        Code code = new Code(confirmationCode, order, email);
         codeDao.addCode(code);
         mailService.sendConfirmCode(code, email);
         return code;

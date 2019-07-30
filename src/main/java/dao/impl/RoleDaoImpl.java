@@ -3,35 +3,44 @@ package dao.impl;
 import dao.RoleDao;
 import model.Role;
 import org.apache.log4j.Logger;
-import util.DBConnection;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import util.HibernateUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Optional;
 
 public class RoleDaoImpl implements RoleDao {
 
     private static final Logger logger = Logger.getLogger(RoleDaoImpl.class);
-    private static final String GET_ROLE_BY_NAME = "SELECT * FROM role WHERE name = ?";
+
+    @Override
+    public void addRole(Role role) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.save(role);
+            transaction.commit();
+            logger.info("Added to db: " + role);
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error("Add role:", e);
+        }
+    }
 
     @Override
     public Optional<Role> getRoleByName(String value) {
-
-        try (Connection connection = DBConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_ROLE_BY_NAME);
-            preparedStatement.setString(1, value);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            Optional<Role> role = Optional.empty();
-            while (resultSet.next()) {
-                role = Optional.of(new Role(resultSet.getLong("idRole"),
-                                            resultSet.getString("name")));
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Role role = session.byNaturalId(Role.class)
+                    .using("name", value)
+                    .getReference();
+            if (Objects.isNull(role)) {
+                return Optional.empty();
+            } else {
+                return Optional.of(role);
             }
-            return role;
-        } catch (SQLException e) {
-            logger.error("Getting role by name", e);
         }
-        return Optional.empty();
     }
 }

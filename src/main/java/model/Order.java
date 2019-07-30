@@ -1,15 +1,47 @@
 package model;
 
+import util.IdCreator;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.Objects;
 
+@Entity
+@Table(name = "order")
 public class Order {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idOrder")
     private Long orderID;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @JoinTable(name = "product_order",
+            joinColumns = {@JoinColumn(name = "idOrder")},
+            inverseJoinColumns = {@JoinColumn(name = "idProduct")})
     private User user;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "delivery_address")
     private String deliveryAddress;
+
+
     private ArrayList<Product> orderProducts;
+
+    public Order() {
+    }
 
     public Order(User user, String email, String deliveryAddress, ArrayList<Product> orderProducts) {
         this.orderID = IdCreator.idCreator();

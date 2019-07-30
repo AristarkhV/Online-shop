@@ -16,5 +16,5 @@ public interface OrderService {
 
     void createOrder(User user, String email, String deliveryAddress, ArrayList<Product> products);
 
-    Code sendConfirmationCode(String email, Long orderID);
+    Code sendConfirmationCode(String email, Order order);
 }

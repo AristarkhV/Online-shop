@@ -1,4 +1,4 @@
-package model;
+package util;
 
 public class IdCreator {
     private static Long idCounter = 0L;

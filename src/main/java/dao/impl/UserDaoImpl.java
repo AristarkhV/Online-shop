@@ -1,17 +1,14 @@
 package dao.impl;
 
 import dao.UserDao;
-import model.Role;
 import model.User;
 import org.apache.log4j.Logger;
-import util.DBConnection;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import util.HibernateUtil;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
@@ -19,116 +16,87 @@ public class UserDaoImpl implements UserDao {
     private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
 
     @Override
-    public List<User> getAll() {
-
-        List<User> userList = new ArrayList<>();
-
-        try (Connection connection = DBConnection.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(
-                     "SELECT * FROM user INNER JOIN role ON role.idRole = user.idRole ")) {
-            while (resultSet.next()) {
-                userList.add(new User(resultSet.getLong("idUser"),
-                                      resultSet.getString("email"),
-                                      resultSet.getString("password"),
-                                      new Role(resultSet.getLong("idRole"),
-                                               resultSet.getString("name"))));
+    public void addUser(User user) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.save(user);
+            transaction.commit();
+            logger.info("Added to db: " + user);
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
             }
-        } catch (SQLException e) {
-            logger.error("SQl exception " + e);
-            return null;
-        }
-        return userList;
-    }
-
-    @Override
-    public void addUser(User value) {
-
-        String sql = String.format("INSERT INTO user(email, password, idRole) VALUES('%s', '%s', '%s')",
-                                    value.getEmail(), value.getPassword(), value.getRole().getRoleID());
-        try (Connection connection = DBConnection.getConnection();
-             Statement statement = connection.createStatement()) {
-            statement.execute(sql);
-            logger.info(value + " added to db");
-        } catch (SQLException e) {
-            logger.error("SQl exception " + e);
+            logger.error("Add user:", e);
         }
     }
 
     @Override
     public void deleteUser(User value) {
-
-        String sql = "DELETE FROM user WHERE idUser = '" + value.getUserID() + "'";
-        try (Connection connection = DBConnection.getConnection();
-             Statement statement = connection.createStatement()) {
-            statement.execute(sql);
-            logger.info(value + " deleted from db");
-        } catch (SQLException e) {
-            logger.error("SQl exception " + e);
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            if (getUserById(value.getUserID()).isPresent()) {
+                session.delete(getUserById(value.getUserID()).get());
+            }
+            transaction.commit();
+            logger.info("Deleted from db: " + getUserById(value.getUserID()));
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error("Delete user: ", e);
         }
     }
 
     @Override
     public void editUser(User value) {
-
-        String sql = String.format("UPDATE user SET email = '%s', password = '%s', idRole = '%s' " +
-                                   "WHERE idUser = %d",
-                                    value.getEmail(), value.getPassword(), value.getRole().getRoleID(),
-                                    value.getUserID());
-        try (Connection connection = DBConnection.getConnection();
-             Statement statement = connection.createStatement()) {
-            statement.execute(sql);
-            logger.info(value + " updated");
-        } catch (SQLException e) {
-            logger.error("SQl exception " + e);
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.update("user", value);
+            transaction.commit();
+            logger.info("Updated: " + value.getUserID());
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error("Update user: ", e);
         }
+    }
+
+    @Override
+    public List<User> getAll() {
+        //TODO:getAll()
+//        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+//            return session.createQuery("FROM User", User.class).list();
+//        }
+        return null;
     }
 
     @Override
     public Optional<User> getUserByEmail(String email) {
-
-        Optional<User> user = Optional.empty();
-        String sql = "SELECT * FROM user INNER JOIN role ON role.idRole = user.idRole " +
-                     "WHERE user.email = '" + email + "'";
-        try (Connection connection = DBConnection.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-            if (resultSet.next()) {
-                user = Optional.of(
-                    new User(resultSet.getLong("idUser"),
-                             resultSet.getString("email"),
-                             resultSet.getString("password"),
-                             new Role(resultSet.getLong("idRole"),
-                                      resultSet.getString("name"))));
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            User user = session.byNaturalId(User.class)
+                    .using("email", email)
+                    .getReference();
+            if (Objects.isNull(user)) {
+                return Optional.empty();
+            } else {
+                return Optional.of(user);
             }
-        } catch (SQLException e) {
-            logger.error("SQl exception " + e);
-            return Optional.empty();
         }
-        return user;
     }
 
     @Override
     public Optional<User> getUserById(Long id) {
-
-        Optional<User> user = Optional.empty();
-        try (Connection connection = DBConnection.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(
-                     "SELECT * FROM user INNER JOIN role ON role.idRole = user.idRole " +
-                          "WHERE user.idUser = " + id)) {
-            if(resultSet.next()) {
-                user = Optional.of(
-                        new User(resultSet.getLong("idUser"),
-                                 resultSet.getString("email"),
-                                 resultSet.getString("password"),
-                                 new Role(resultSet.getLong("idRole"),
-                                          resultSet.getString("name"))));
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            User user = session.load(User.class, id);
+            if (Objects.isNull(user)) {
+                return Optional.empty();
+            } else {
+                return Optional.of(user);
             }
-        } catch (SQLException e) {
-            logger.error("SQl exception " + e);
-            return Optional.empty();
         }
-        return user;
     }
 }

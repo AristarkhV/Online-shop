@@ -66,7 +66,7 @@ public class CartServlet extends HttpServlet {
                     orderService.createOrder(user.get(), email, deliveryAddress, cart.get().getProducts());
                     Optional<Order> order = orderService.getUserOrder(user.get());
                     if (order.isPresent()) {
-                        orderService.sendConfirmationCode(email, order.get().getOrderID());
+                        orderService.sendConfirmationCode(email, order.get());
                         request.setAttribute("email", email);
                     }
                     request.getRequestDispatcher("/orderPayment.jsp").forward(request, response);
