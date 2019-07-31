@@ -17,6 +17,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void addUser(User user) {
+
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -33,6 +34,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void deleteUser(User value) {
+
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -52,6 +54,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void editUser(User value) {
         Transaction transaction = null;
+
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.update("user", value);
@@ -67,15 +70,15 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getAll() {
-        //TODO:getAll()
-//        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-//            return session.createQuery("FROM User", User.class).list();
-//        }
-        return null;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("FROM User", User.class).list();
+        }
     }
 
     @Override
     public Optional<User> getUserByEmail(String email) {
+
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             User user = session.byNaturalId(User.class)
                     .using("email", email)
@@ -90,6 +93,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> getUserById(Long id) {
+
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             User user = session.load(User.class, id);
             if (Objects.isNull(user)) {

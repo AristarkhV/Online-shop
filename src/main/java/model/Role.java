@@ -2,10 +2,7 @@ package model;
 
 import util.IdCreator;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
@@ -14,12 +11,7 @@ import java.util.Objects;
 @Table(name = "role")
 public class Role {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idRole")
     private Long roleID;
-
-    @Column(name = "`name`")
     private String role;
 
     public Role() {
@@ -67,5 +59,16 @@ public class Role {
     @Override
     public int hashCode() {
         return Objects.hash(role, roleID);
+    }
+
+    private String id;
+
+    @Id
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

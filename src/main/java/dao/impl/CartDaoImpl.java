@@ -18,6 +18,7 @@ public class CartDaoImpl implements CartDao {
 
     @Override
     public void addCart(Cart value) {
+
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -34,6 +35,7 @@ public class CartDaoImpl implements CartDao {
 
     @Override
     public Optional<Cart> getCart(User value) {
+
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Cart cart = session.byNaturalId(Cart.class)
                     .using("idUser", value.getUserID())
@@ -51,6 +53,7 @@ public class CartDaoImpl implements CartDao {
 
     @Override
     public void addProductToCart(Cart cart, Product product) {
+
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -68,6 +71,7 @@ public class CartDaoImpl implements CartDao {
 
     @Override
     public void cleanCart(Cart value) {
+
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();

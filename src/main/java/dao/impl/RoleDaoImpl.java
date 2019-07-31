@@ -16,6 +16,7 @@ public class RoleDaoImpl implements RoleDao {
 
     @Override
     public void addRole(Role role) {
+
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -32,6 +33,7 @@ public class RoleDaoImpl implements RoleDao {
 
     @Override
     public Optional<Role> getRoleByName(String value) {
+
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Role role = session.byNaturalId(Role.class)
                     .using("name", value)

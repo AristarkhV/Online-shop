@@ -18,6 +18,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void addProduct(Product product) {
+
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -34,6 +35,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void deleteProduct(Product value) {
+
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -52,6 +54,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void editProduct(Product value) {
+
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -68,12 +71,12 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public List<Product> getAll() {
-        //TODO: getAll()
-//        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-//            return session.createQuery("FROM Product", Product.class).list();
-//        } catch (Exception e) {
-//            logger.error("Get all products from db: ", e);
-//        }
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery("FROM Product", Product.class).list();
+        } catch (Exception e) {
+            logger.error("Get all products from db: ", e);
+        }
         return Collections.emptyList();
     }
 

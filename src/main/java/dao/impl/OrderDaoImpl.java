@@ -17,6 +17,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public void addOrder(Order order) {
+
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -33,6 +34,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Optional<Order> getUserOrder(User value) {
+
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Order order = session.byNaturalId(Order.class)
                     .using("idUser", value.getUserID())

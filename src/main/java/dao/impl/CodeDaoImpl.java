@@ -16,6 +16,7 @@ public class CodeDaoImpl implements CodeDao {
 
     @Override
     public void addCode(Code value) {
+
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -32,6 +33,7 @@ public class CodeDaoImpl implements CodeDao {
 
     @Override
     public Optional<Code> getCode(String email) {
+
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Code code = session.byNaturalId(Code.class)
                     .using("email", email)
