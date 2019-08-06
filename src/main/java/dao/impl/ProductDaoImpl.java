@@ -58,7 +58,7 @@ public class ProductDaoImpl implements ProductDao {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.update("product", value);
+            session.update(value);
             transaction.commit();
             logger.info("Edit: " + value.getProductID());
         } catch (Exception e) {

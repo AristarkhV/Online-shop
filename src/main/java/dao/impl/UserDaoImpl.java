@@ -57,7 +57,7 @@ public class UserDaoImpl implements UserDao {
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.update("user", value);
+            session.update(value);
             transaction.commit();
             logger.info("Updated: " + value.getUserID());
         } catch (Exception e) {
