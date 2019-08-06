@@ -6,6 +6,7 @@ import model.User;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import util.HibernateUtil;
 
 import java.util.Objects;
@@ -28,7 +29,7 @@ public class OrderDaoImpl implements OrderDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error("Add order to db: ", e);
+            logger.error("Can't add order to db: ", e);
         }
     }
 
@@ -36,16 +37,12 @@ public class OrderDaoImpl implements OrderDao {
     public Optional<Order> getUserOrder(User value) {
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Order order = session.byNaturalId(Order.class)
-                    .using("idUser", value.getUserID())
-                    .getReference();
-            if (Objects.isNull(order)) {
-                return Optional.empty();
-            } else {
-                return Optional.of(order);
-            }
+            Query query = session.createQuery("FROM Order WHERE user = :user");
+            query.setParameter("user", value);
+            Order order = (Order) query.uniqueResult();
+            return Optional.of(order);
         } catch (Exception e) {
-            logger.error("Get user order : ", e);
+            logger.error("Can't get user order : ", e);
         }
         return Optional.empty();
     }

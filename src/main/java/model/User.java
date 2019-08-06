@@ -5,13 +5,11 @@ import util.IdCreator;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.Objects;
 
@@ -24,10 +22,8 @@ public class User {
     @Column(name = "idUser")
     private Long userID;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    @JoinTable(name = "role",
-            joinColumns = {@JoinColumn(name = "idUser")},
-            inverseJoinColumns = {@JoinColumn(name = "idRole")})
+    @OneToOne(targetEntity = Role.class, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "idRole")
     private Role role;
 
     @Column(name = "email", unique = true)

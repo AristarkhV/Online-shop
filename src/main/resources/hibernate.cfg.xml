@@ -5,15 +5,18 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/shop_hibernate?
-                                                                              serverTimezone=EST5EDT
-        </property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/test?serverTimezone=EST5EDT</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">Makar4yk1221</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.current_session_context_class">thread</property>
-        <property name="hibernate.hbm2ddl.auto">create-drop</property>
-        <mapping package="model" />
+        <property name="hibernate.hbm2ddl.auto">create</property>
+        <mapping class="model.Role" />
+        <mapping class="model.User" />
+        <mapping class="model.Product" />
+        <mapping class="model.Cart" />
+        <mapping class="model.Order" />
+        <mapping class="model.Code" />
     </session-factory>
 </hibernate-configuration>

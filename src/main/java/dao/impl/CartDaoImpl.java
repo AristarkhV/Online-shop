@@ -7,6 +7,7 @@ import model.User;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import util.HibernateUtil;
 
 import java.util.Objects;
@@ -29,7 +30,7 @@ public class CartDaoImpl implements CartDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error("Add cart to db: ", e);
+            logger.error("Can't add cart to db: ", e);
         }
     }
 
@@ -37,16 +38,12 @@ public class CartDaoImpl implements CartDao {
     public Optional<Cart> getCart(User value) {
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Cart cart = session.byNaturalId(Cart.class)
-                    .using("idUser", value.getUserID())
-                    .getReference();
-            if (Objects.isNull(cart)) {
-                return Optional.empty();
-            } else {
-                return Optional.of(cart);
-            }
-        } catch (Exception e) {
-            logger.error("Get cart : ", e);
+            Query query = session.createQuery("FROM Cart WHERE user = :user");
+            query.setParameter("user", value);
+            Cart cart = (Cart) query.uniqueResult();
+            return Optional.of(cart);
+        }catch (Exception e) {
+            logger.error("Can't get cart : ", e);
         }
         return Optional.empty();
     }
@@ -65,7 +62,7 @@ public class CartDaoImpl implements CartDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error("Add product to cart: " + e);
+            logger.error("Can't add product to cart: " + e);
         }
     }
 
@@ -82,7 +79,7 @@ public class CartDaoImpl implements CartDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error("Clean cart: ", e);
+            logger.error("Can't clean cart: ", e);
         }
     }
 }

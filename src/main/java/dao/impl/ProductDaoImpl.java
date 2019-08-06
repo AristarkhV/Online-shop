@@ -90,7 +90,7 @@ public class ProductDaoImpl implements ProductDao {
                 return Optional.of(product);
             }
         } catch (Exception e) {
-            logger.error("Get product by ID: ", e);
+            logger.error("Can't get product by ID: ", e);
         }
         return Optional.empty();
     }

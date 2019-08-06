@@ -5,6 +5,7 @@ import model.Code;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import util.HibernateUtil;
 
 import java.util.Objects;
@@ -27,7 +28,7 @@ public class CodeDaoImpl implements CodeDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error("Add code to db: ", e);
+            logger.error("Can't add code to db: ", e);
         }
     }
 
@@ -35,16 +36,12 @@ public class CodeDaoImpl implements CodeDao {
     public Optional<Code> getCode(String email) {
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Code code = session.byNaturalId(Code.class)
-                    .using("email", email)
-                    .getReference();
-            if (Objects.isNull(code)) {
-                return Optional.empty();
-            } else {
-                return Optional.of(code);
-            }
+            Query query = session.createQuery("FROM Code WHERE email = :email");
+            query.setParameter("email", email);
+            Code code = (Code) query.uniqueResult();
+            return Optional.of(code);
         } catch (Exception e) {
-            logger.error("Get code : ", e);
+            logger.error("Can't get code : ", e);
         }
         return Optional.empty();
     }

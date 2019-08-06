@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -26,17 +27,15 @@ public class Cart {
     @Column(name = "idCart")
     private Long cartID;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    @JoinTable(name = "cart_user",
-            joinColumns = {@JoinColumn(name = "idCart")},
-            inverseJoinColumns = {@JoinColumn(name = "idUser")})
+    @OneToOne(targetEntity = User.class, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "idUser")
     private User user;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "product_cart",
             joinColumns = {@JoinColumn(name = "idCart")},
             inverseJoinColumns = {@JoinColumn(name = "idProduct")})
-    private ArrayList<Product> products;
+    private List<Product> products;
 
     public Cart() {
     }
@@ -69,7 +68,7 @@ public class Cart {
         this.user = user;
     }
 
-    public ArrayList<Product> getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
 

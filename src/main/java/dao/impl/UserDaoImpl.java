@@ -5,10 +5,10 @@ import model.User;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import util.HibernateUtil;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
@@ -28,7 +28,7 @@ public class UserDaoImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error("Add user:", e);
+            logger.error("Can't add user:", e);
         }
     }
 
@@ -47,7 +47,7 @@ public class UserDaoImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error("Delete user: ", e);
+            logger.error("Can't delete user: ", e);
         }
     }
 
@@ -64,7 +64,7 @@ public class UserDaoImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error("Update user: ", e);
+            logger.error("Can't edit user: ", e);
         }
     }
 
@@ -78,29 +78,25 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> getUserByEmail(String email) {
-
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            User user = session.byNaturalId(User.class)
-                    .using("email", email)
-                    .getReference();
-            if (Objects.isNull(user)) {
-                return Optional.empty();
-            } else {
-                return Optional.of(user);
-            }
+            Query query = session.createQuery("FROM User WHERE email = :email");
+            query.setParameter("email", email);
+            User user = (User) query.uniqueResult();
+            return Optional.of(user);
+        } catch (Exception e) {
+            logger.error("Can't find user by email  = " + email, e);
         }
+        return Optional.empty();
     }
 
     @Override
-    public Optional<User> getUserById(Long id) {
-
+    public Optional<User> getUserById(Long userId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            User user = session.load(User.class, id);
-            if (Objects.isNull(user)) {
-                return Optional.empty();
-            } else {
-                return Optional.of(user);
-            }
+            User user = session.get(User.class, userId);
+            return Optional.of(user);
+        } catch (Exception e) {
+            logger.error("Can't find user: " + userId, e);
         }
+        return Optional.empty();
     }
 }

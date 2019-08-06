@@ -37,7 +37,7 @@ public class AddToCartServlet extends HttpServlet {
             Optional<Product> product = productService.getProductById(Long.parseLong(id));
             if (product.isPresent()) {
                 if (!cart.isPresent()){
-                    cartService.addCart(new Cart(new ArrayList<Product>(), user.get()));
+                    cartService.addCart(new Cart(new ArrayList<>(), user.get()));
                     cart = cartService.getCart(user.get());
                 }
                 logger.info("Try to add " + product.get()
