@@ -1,13 +1,39 @@
 package model;
 
+import util.IdCreator;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.util.Objects;
 
+@Entity
+@Table(name = "user")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idUser")
     private Long userID;
+
+    @OneToOne(targetEntity = Role.class, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "idRole")
     private Role role;
+
+    @Column(name = "email", unique = true)
     private String email;
+
+    @Column(name = "password")
     private String password;
+
+    public User() {
+    }
 
     public User(String email, String password, Role role) {
         this.email = email;

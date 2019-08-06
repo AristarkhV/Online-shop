@@ -1,13 +1,44 @@
 package model;
 
+import util.IdCreator;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "cart")
 public class Cart {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idCart")
     private Long cartID;
+
+    @OneToOne(targetEntity = User.class, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "idUser")
     private User user;
-    private ArrayList<Product> products;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "product_cart",
+            joinColumns = {@JoinColumn(name = "idCart")},
+            inverseJoinColumns = {@JoinColumn(name = "idProduct")})
+    private List<Product> products;
+
+    public Cart() {
+    }
 
     public Cart(Long codeID, ArrayList<Product> products, User user) {
         this.cartID = codeID;
@@ -37,7 +68,7 @@ public class Cart {
         this.user = user;
     }
 
-    public ArrayList<Product> getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
 

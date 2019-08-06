@@ -1,13 +1,35 @@
 package model;
 
+import util.IdCreator;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 
+@Entity
+@Table(name = "product")
 public class Product {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idProduct")
     private Long productID;
+
+    @Column(name = "`name`")
     private String name;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "price")
     private Double price;
+
+    public Product() {
+    }
 
     public Product(String name, String description, Double price) {
         this.name = name;

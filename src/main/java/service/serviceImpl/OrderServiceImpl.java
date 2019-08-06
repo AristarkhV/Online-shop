@@ -14,6 +14,7 @@ import service.OrderService;
 import util.RandomHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class OrderServiceImpl implements OrderService {
@@ -23,16 +24,16 @@ public class OrderServiceImpl implements OrderService {
     private static final MailService mailService = MailServiceFactory.getInstance();
 
     @Override
-    public Code sendConfirmationCode(String email, Long orderID) {
+    public Code sendConfirmationCode(String email, Order order) {
         String confirmationCode = RandomHelper.generateCode();
-        Code code = new Code(confirmationCode, orderID, email);
+        Code code = new Code(confirmationCode, order, email);
         codeDao.addCode(code);
         mailService.sendConfirmCode(code, email);
         return code;
     }
 
     @Override
-    public void createOrder(User user, String email, String deliveryAddress, ArrayList<Product> products) {
+    public void createOrder(User user, String email, String deliveryAddress, List<Product> products) {
         Order userOrder = new Order(user, email, deliveryAddress, products) ;
         orderDao.addOrder(userOrder);
     }
