@@ -5,6 +5,7 @@ import model.Role;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import util.HibernateUtil;
 
 import java.util.Objects;
@@ -35,14 +36,13 @@ public class RoleDaoImpl implements RoleDao {
     public Optional<Role> getRoleByName(String value) {
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Role role = session.byNaturalId(Role.class)
-                    .using("name", value)
-                    .getReference();
-            if (Objects.isNull(role)) {
-                return Optional.empty();
-            } else {
-                return Optional.of(role);
-            }
+            Query query = session.createQuery("FROM Role WHERE name = :value");
+            query.setParameter("value", value);
+            Role role = (Role) query.uniqueResult();
+            return Optional.of(role);
+        } catch (Exception e) {
+            logger.error("Can't find role by name  = " + value, e);
         }
+        return Optional.empty();
     }
 }
