@@ -82,6 +82,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public Optional<Product> getProductById(Long id) {
+
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Product product = session.get(Product.class, id);
             if (Objects.isNull(product)) {
