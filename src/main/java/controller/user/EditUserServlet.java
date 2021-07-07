@@ -1,7 +1,7 @@
 package controller.user;
 
 import dao.impl.UserDaoImpl;
-import factory.UserServiceFactory;
+import factory.service.UserServiceFactory;
 import model.User;
 import org.apache.log4j.Logger;
 import service.UserService;
@@ -17,21 +17,21 @@ import java.util.Optional;
 @WebServlet("/admin/edit/user")
 public class EditUserServlet extends HttpServlet {
 
-    private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
+    private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
     private UserService userService = UserServiceFactory.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("userId");
-        if (id != null) {
+        String id = request.getParameter("userID");
+        if (!id.isEmpty()) {
             Optional<User> editUser = userService.getUserById(Long.parseLong(id));
             request.setAttribute("email", editUser.get().getEmail());
-            request.setAttribute("userId", editUser.get().getUserID());
+            request.setAttribute("userID", editUser.get().getUserID());
             request.getRequestDispatcher("/addUser.jsp").forward(request, response);
         } else {
-            LOGGER.info("User is not found");
-            response.sendRedirect("/addUser.jsp");
+            logger.info("User is not found");
+            response.sendRedirect("/addUser");
         }
     }
 }

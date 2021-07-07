@@ -8,6 +8,7 @@
 <head>
     <title>Store</title>
 </head>
+<body>
 <header>
     <h1 align="center">Strange store ¯\_(ツ)_/¯</h1>
     <form>
@@ -19,20 +20,23 @@
         </button>
     </form>
 </header>
-<body>
-<div class="products">
-    <c:forEach var="product" items="${products}">
-        <div class="productDiv">
-            <h2>${product.name}</h2>
-            <h4>${product.description}</h4>
-            <h3>${product.price} $</h3>
-            <form action="/store/add/cart" method="post" class="cart-btn">
-                <input type="hidden" name="productID" value="${product.productID}">
-                <button type="submit">Buy</button>
-            </form>
-            <h4>${message}</h4>
-        </div>
-    </c:forEach>
-</div>
+<main>
+    <div class="error">
+        <h3>${message}</h3>
+    </div>
+    <div class="products">
+        <c:forEach var="product" items="${products}">
+            <div class="productDiv">
+                <h2>${product.name}</h2>
+                <h4>${product.description}</h4>
+                <h3>${product.price} $</h3>
+                <form action="/store/add/cart" method="post" class="cart-btn">
+                    <input type="hidden" name="productID" value="${product.productID}">
+                    <button class="add" type="submit">Buy</button>
+                </form>
+            </div>
+        </c:forEach>
+    </div>
+</main>
 </body>
 </html>

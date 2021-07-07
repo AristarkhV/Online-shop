@@ -1,7 +1,7 @@
 package controller.product;
 
 import dao.impl.ProductDaoImpl;
-import factory.ProductServiceFactory;
+import factory.service.ProductServiceFactory;
 import model.Product;
 import org.apache.log4j.Logger;
 import service.ProductService;
@@ -21,26 +21,16 @@ public class DeleteProductServlet extends HttpServlet {
     private ProductService productService = ProductServiceFactory.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.setAttribute("products", productService.getAll());
-        request.getRequestDispatcher("products.jsp").forward(request, response);
-    }
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Long deleteProductId = Long.parseLong(request.getParameter("productId"));
-        Optional<Product> deleteProduct = productService.getProductById(deleteProductId);
+        Long productID = Long.parseLong(request.getParameter("productID"));
+        Optional<Product> deleteProduct = productService.getProductById(productID);
         if (deleteProduct.isPresent()) {
             LOGGER.info("Try to delete  " + deleteProduct + " product ... \n");
             productService.deleteProduct(deleteProduct.get());
-            request.setAttribute("message", "Deleted");
-            request.setAttribute("products", productService.getAll());
-            request.getRequestDispatcher("/products.jsp").forward(request, response);
         } else {
             request.setAttribute("message", "Can't");
         }
-        response.sendRedirect("/products.jsp");
+        response.sendRedirect("/products");
     }
 }

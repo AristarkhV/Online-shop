@@ -9,11 +9,11 @@ import java.util.Optional;
 public interface UserDao {
     List<User> getAll();
 
-    void addUser(User user);
+    void addUser(User value);
 
-    void deleteUser(User deleteUser);
+    void deleteUser(User value);
 
-    void editUser(User editUser, String email, String password, Role role);
+    void editUser(User value);
 
     Optional<User> getUserByEmail(String email);
 

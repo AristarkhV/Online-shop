@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface RoleDao {
 
-    Optional<Role> getRoleByID(Long roleID);
+    Optional<Role> getRoleByName(String value);
 }

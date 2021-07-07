@@ -4,6 +4,7 @@ import dao.UserDao;
 import dao.impl.UserDaoImpl;
 
 public class UserFactory {
+
     private static UserDao instance;
 
     public static UserDao getInstance() {

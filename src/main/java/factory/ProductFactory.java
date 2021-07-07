@@ -4,6 +4,7 @@ import dao.ProductDao;
 import dao.impl.ProductDaoImpl;
 
 public class ProductFactory {
+
     private static ProductDao instance;
 
     public static ProductDao getInstance() {

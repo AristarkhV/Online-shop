@@ -1,6 +1,6 @@
 package controller.user;
 
-import factory.UserServiceFactory;
+import factory.service.UserServiceFactory;
 import service.UserService;
 
 import javax.servlet.ServletException;
@@ -18,6 +18,15 @@ public class AllUsersServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        request.setAttribute("users", userService.getAll());
+        request.getRequestDispatcher("/users.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
         request.setAttribute("users", userService.getAll());
         request.getRequestDispatcher("/users.jsp").forward(request, response);
     }

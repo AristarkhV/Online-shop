@@ -1,9 +1,7 @@
 package controller.user;
 
-import factory.service.ProductServiceFactory;
 import factory.service.UserServiceFactory;
 import model.User;
-import service.ProductService;
 import service.UserService;
 
 import javax.servlet.ServletException;
@@ -19,7 +17,12 @@ import java.util.Optional;
 public class UserSignInServlet extends HttpServlet {
 
     private UserService userService = UserServiceFactory.getInstance();
-    private ProductService productService = ProductServiceFactory.getInstance();
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -38,9 +41,7 @@ public class UserSignInServlet extends HttpServlet {
             }
         } else {
             if (currentUser.isPresent()) {
-                String userPassword = currentUser
-                        .get()
-                        .getPassword();
+                String userPassword = currentUser.get().getPassword();
                 if (userPassword.equals(password)) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", currentUser.get());

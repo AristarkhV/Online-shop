@@ -7,18 +7,28 @@
 <head>
     <title>Products page</title>
 </head>
+<header>
+    <h1 align="center">Products ¯\_(ツ)_/¯</h1>
+</header>
 <body>
 <div align="center">
     <table>
+        <th class="td-button">
+            <form>
+                <input class="add" type="submit" name="submit"
+                       formaction="/admin/users" formmethod="post"
+                       value="Users page">
+            </form>
+        </th>
+        <th class="td-button">
+            <form action="/add/product" method="get">
+                <input class="add" type="submit" value="Add product">
+            </form>
+        </th>
         <tr>
             <th>Name</th>
             <th>Description</th>
             <th>Price</th>
-            <th class="td-button">
-                <form action="/admin/add/product" method="get">
-                    <input type="submit" value="Add product">
-                </form>
-            </th>
         </tr>
         <c:forEach var="product" items="${products}">
             <tr>
@@ -26,24 +36,21 @@
                 <td>${product.price}</td>
                 <td>${product.description}</td>
                 <td class="td-button">
-                    <form action="/admin/edit/product" method="get">
+                    <form action="/edit/product" method="post">
                         <input type="hidden" name="productID" value="${product.productID}">
-                        <button type="submit">Edit</button>
+                        <button class="edit" type="submit">Edit</button>
                     </form>
                 </td>
                 <td class="td-button">
-                    <form action="/admin/delete/product" method="post">
+                    <form action="/delete/product" method="post">
                         <input type="hidden" name="productID" value="${product.productID}">
-                        <button type="submit">Delete</button>
+                        <button class="delete" type="submit">Delete</button>
                     </form>
                 </td>
             </tr>
         </c:forEach>
     </table>
     <h4>${message}</h4>
-    <form>
-        <input type="submit" name="submit" formaction="/admin/users" formmethod="post" value="Users page">
-    </form>
 </div>
 </body>
 </html>

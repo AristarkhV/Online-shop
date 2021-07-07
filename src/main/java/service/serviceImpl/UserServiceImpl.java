@@ -2,7 +2,6 @@ package service.serviceImpl;
 
 import dao.UserDao;
 import factory.UserFactory;
-import model.Role;
 import model.User;
 import service.UserService;
 
@@ -19,8 +18,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void editUser(User editUser, String email, String password, Role role) {
-        userDao.editUser(editUser, email, password, role);
+    public void editUser(User value) {
+        userDao.editUser(value);
     }
 
     @Override
@@ -29,8 +28,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(User user) {
-        userDao.addUser(user);
+    public void addUser(User value) {
+        userDao.addUser(value);
     }
 
     @Override
